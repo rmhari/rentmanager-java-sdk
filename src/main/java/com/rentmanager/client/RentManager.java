@@ -1,5 +1,8 @@
+package com.rentmanager.client;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rentmanager.client.builders.Entity;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -81,7 +84,7 @@ public class RentManager {
                 : Optional.of(resultString.substring(0, resultString.length() - 1));
     }
 
-    public List<Map<String, Object>> getEntities(String entityName, List<String> fields) throws IOException, InterruptedException {
+    public List<Map<String, Object>> getEntities(Entity entityName, List<String> fields) throws IOException, InterruptedException {
 
         final HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
