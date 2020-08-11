@@ -1,12 +1,14 @@
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,10 @@ public class RentManager {
         this.token = getToken(userName, password);
     }
 
+    public RentManager() throws IOException, InterruptedException {
+        this(System.getenv("RENTMANAGER_URL"), System.getenv("RENTMANAGER_USERNAME"), System.getenv("RENTMANAGER_PASSWORD"));
+    }
+
     public String getToken(String userName, String password) throws IOException, InterruptedException {
         String token = null;
 
@@ -32,17 +38,15 @@ public class RentManager {
                 .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
-        final StringBuilder loginUrl = new StringBuilder(this.url + "/authentication/AuthorizeUser/");
+        final StringBuilder loginUrl = new StringBuilder(this.url+"/authentication/AuthorizeUser/");
 
         //set header
         HttpRequest request = HttpRequest.newBuilder()
-                .GET()
+                .POST(HttpRequest.BodyPublishers.ofString("{\"userName\":\"" + userName + "\",\"password\":\"" + password + "\"}"))
                 .uri(URI.create(loginUrl.toString()))
                 .setHeader("Content-Type", "application/json")
                 .build();
 
-        //set the content inside connection, "{\"username\":\""+username+"\",\"password\":\""+password+"\"}";
-        String jsoncontent = "{\"userName\":\"" + userName + "\",\"password\":\"" + password + "\"}";
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -51,11 +55,14 @@ public class RentManager {
 
         //if successful
         if (responsecode == HttpURLConnection.HTTP_OK) {
-            System.out.println(response.body());
+            token = response.body();
+            token = token.substring(1, token.length() - 1);
+            System.out.println(token);
         }
         return token;
 
     }
+
     private Optional<String> getParamsString(Map<String, String> params)
             throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
@@ -73,21 +80,22 @@ public class RentManager {
                 ? Optional.empty()
                 : Optional.of(resultString.substring(0, resultString.length() - 1));
     }
-    public List<Map<String, Object>> getTenants(List<String> fields) throws IOException, InterruptedException {
+
+    public List<Map<String, Object>> getEntities(String entityName, List<String> fields) throws IOException, InterruptedException {
 
         final HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
 
-        final StringBuilder entitiesUrl = new StringBuilder(this.url + "/Tenants");
+        final StringBuilder entitiesUrl = new StringBuilder(this.url + "/" + entityName);
 
-        Map<String,String> requestParameters = new HashMap<>();
-        if(fields != null) {
-            requestParameters.put("fields",fields.stream().collect(Collectors.joining(",")));
+        Map<String, String> requestParameters = new HashMap<>();
+        if (fields != null) {
+            requestParameters.put("fields", fields.stream().collect(Collectors.joining(",")));
         }
-        getParamsString(requestParameters).ifPresent(paramString->{
-            entitiesUrl.append("?").append(paramString) ;
+        getParamsString(requestParameters).ifPresent(paramString -> {
+            entitiesUrl.append("?").append(paramString);
         });
 
         HttpRequest request = HttpRequest.newBuilder()

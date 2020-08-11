@@ -9,6 +9,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +20,7 @@ class RentManagerTest {
     @Test
     void testRentManager() throws IOException, InterruptedException {
         RentManager rentManager = new RentManager();
-        rentManager.getTenants(Collections.singletonList("Addresses"));
+        List<Map<String, Object>> result = rentManager.getEntities("Tenants", Collections.singletonList("Contacts"));
     }
 
 }
