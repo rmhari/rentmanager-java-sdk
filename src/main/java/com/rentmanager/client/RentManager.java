@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class RentManager {
@@ -33,7 +34,7 @@ public class RentManager {
         this(System.getenv("RENTMANAGER_URL"), System.getenv("RENTMANAGER_USERNAME"), System.getenv("RENTMANAGER_PASSWORD"));
     }
 
-    public String getToken(String userName, String password) throws IOException, InterruptedException {
+    private String getToken(String userName, String password) throws IOException, InterruptedException {
         String token = null;
 
         //Connection created
@@ -60,7 +61,6 @@ public class RentManager {
         if (responsecode == HttpURLConnection.HTTP_OK) {
             token = response.body();
             token = token.substring(1, token.length() - 1);
-            System.out.println(token);
         }
         return token;
 
@@ -84,22 +84,30 @@ public class RentManager {
                 : Optional.of(resultString.substring(0, resultString.length() - 1));
     }
 
-    public List<Map<String, Object>> getEntities(Entity entityName, List<String> fields) throws IOException, InterruptedException {
+    public List<Map<String, Object>> getEntities(Entity entity, List<String> fields, List<String> embeds, List<String> ordering) throws IOException, InterruptedException {
 
         final HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
 
-        final StringBuilder entitiesUrl = new StringBuilder(this.url + "/" + entityName);
+        final StringBuilder entitiesUrl = new StringBuilder(this.url + "/" + entity.getName());
 
         Map<String, String> requestParameters = new HashMap<>();
-        if (fields != null) {
+        if (fields != null)  {
             requestParameters.put("fields", fields.stream().collect(Collectors.joining(",")));
+        }
+        if(embeds != null) {
+            requestParameters.put("embeds", embeds.stream().collect(Collectors.joining(",")));
+        }
+        if (ordering != null)  {
+            requestParameters.put("orderingOptions", ordering.stream().collect(Collectors.joining(",")));
         }
         getParamsString(requestParameters).ifPresent(paramString -> {
             entitiesUrl.append("?").append(paramString);
         });
+
+
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()

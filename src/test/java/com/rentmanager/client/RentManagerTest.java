@@ -22,7 +22,8 @@ class RentManagerTest {
     @Test
     void testRentManager() throws IOException, InterruptedException {
         RentManager rentManager = new RentManager();
-        List<Map<String, Object>> result = rentManager.getEntities(Entity.TENANTS, Collections.singletonList("Contacts"));
+        List<Map<String, Object>> result = rentManager.getEntities(Entity.TENANTS, null, Collections.singletonList("Contacts"), Collections.singletonList("LastFirst"));
+        System.out.println(result);
     }
 
 }
