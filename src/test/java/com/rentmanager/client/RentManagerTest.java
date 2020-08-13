@@ -1,5 +1,6 @@
 package com.rentmanager.client;
-import com.rentmanager.client.builders.Entity;
+
+import com.rentmanager.client.model.Tenant;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 
@@ -22,7 +23,7 @@ class RentManagerTest {
     @Test
     void testRentManager() throws IOException, InterruptedException {
         RentManager rentManager = new RentManager();
-        List<Map<String, Object>> result = rentManager.getEntities(Entity.TENANTS, null, Collections.singletonList("Contacts"), Collections.singletonList("LastFirst"));
+        List<Tenant> result = rentManager.getEntities(Tenant.class, null, Collections.singletonList("Addresses"), Collections.singletonList("LastFirst"));
         System.out.println(result);
     }
 

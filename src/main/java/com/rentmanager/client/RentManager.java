@@ -2,7 +2,6 @@ package com.rentmanager.client;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rentmanager.client.builders.Entity;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -66,64 +65,8 @@ public class RentManager {
 
     }
 
-    private Optional<String> getParamsString(Map<String, String> params)
-            throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-            result.append("&");
-        }
-
-        String resultString = result.toString();
-
-        return resultString.length() == 0
-                ? Optional.empty()
-                : Optional.of(resultString.substring(0, resultString.length() - 1));
+    public <T> List<T> getEntities(Class<T> clazz,List<String> fields, List<String> embeds, List<String> ordering) throws IOException, InterruptedException {
+        return new RequestBuilder(clazz,url,token).getEntities(fields,embeds,ordering);
     }
 
-    public List<Map<String, Object>> getEntities(Entity entity, List<String> fields, List<String> embeds, List<String> ordering) throws IOException, InterruptedException {
-
-        final HttpClient httpClient = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_1_1)
-                .connectTimeout(Duration.ofSeconds(10))
-                .build();
-
-        final StringBuilder entitiesUrl = new StringBuilder(this.url + "/" + entity.getName());
-
-        Map<String, String> requestParameters = new HashMap<>();
-        if (fields != null)  {
-            requestParameters.put("fields", fields.stream().collect(Collectors.joining(",")));
-        }
-        if(embeds != null) {
-            requestParameters.put("embeds", embeds.stream().collect(Collectors.joining(",")));
-        }
-        if (ordering != null)  {
-            requestParameters.put("orderingOptions", ordering.stream().collect(Collectors.joining(",")));
-        }
-        getParamsString(requestParameters).ifPresent(paramString -> {
-            entitiesUrl.append("?").append(paramString);
-        });
-
-
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create(entitiesUrl.toString()))
-                .setHeader("Content-Type", "application/json")
-                .setHeader("X-RM12Api-ApiToken", this.token)
-                .build();
-
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-        int responseCode = response.statusCode();
-
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            return objectMapper.readValue(response.body(), new TypeReference<List<Map<String, Object>>>() {
-            });
-        }
-        return null;
-    }
 }
