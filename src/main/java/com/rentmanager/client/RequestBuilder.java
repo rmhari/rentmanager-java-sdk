@@ -54,7 +54,7 @@ public class RequestBuilder<T> {
                 : Optional.of(resultString.substring(0, resultString.length() - 1));
     }
 
-    public List<T> getEntities(List<String> fields, List<String> embeds, List<String> ordering) throws IOException, InterruptedException {
+    public List<T> getEntities(List<String> fields, List<String> embeds, List<String> ordering, String filterExpression) throws IOException, InterruptedException {
 
         final HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
@@ -72,6 +72,9 @@ public class RequestBuilder<T> {
         }
         if (ordering != null)  {
             requestParameters.put("orderingOptions", ordering.stream().collect(Collectors.joining(",")));
+        }
+        if (filterExpression != null)  {
+            requestParameters.put("filters", filterExpression);
         }
         getParamsString(requestParameters).ifPresent(paramString -> {
             entitiesUrl.append("?").append(paramString);

@@ -1,23 +1,15 @@
 package com.rentmanager.client;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class RentManager {
     private final String url;
@@ -41,7 +33,7 @@ public class RentManager {
                 .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
-        final StringBuilder loginUrl = new StringBuilder(this.url+"/authentication/AuthorizeUser/");
+        final StringBuilder loginUrl = new StringBuilder(this.url + "/authentication/AuthorizeUser/");
 
         //set header
         HttpRequest request = HttpRequest.newBuilder()
@@ -65,8 +57,8 @@ public class RentManager {
 
     }
 
-    public <T> List<T> getEntities(Class<T> clazz,List<String> fields, List<String> embeds, List<String> ordering) throws IOException, InterruptedException {
-        return new RequestBuilder(clazz,url,token).getEntities(fields,embeds,ordering);
+    public <T> List<T> getEntities(Class<T> clazz, List<String> fields, List<String> embeds, List<String> ordering, String filterExpression) throws IOException, InterruptedException {
+        return new RequestBuilder(clazz, url, token).getEntities(fields, embeds, ordering, filterExpression);
     }
 
 }
