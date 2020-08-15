@@ -24,5 +24,7 @@ public class Address {
     public Integer parentID;
     @JsonProperty("ParentType")
     public String parentType;
+    @JsonProperty("AddressType")
+    public AddressType addressType;
 
 }

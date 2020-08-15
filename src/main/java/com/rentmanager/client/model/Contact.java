@@ -79,6 +79,5 @@ public class Contact {
     @JsonProperty("Addresses")
     public List<Address> addresses = null;
     @JsonProperty("DateOfBirth")
-    public Date DateOfBirth;
-
+    public Date dateOfBirth;
 }
