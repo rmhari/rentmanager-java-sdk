@@ -12,7 +12,8 @@ class TenantTest {
     @Test
     void testRentManager() throws IOException, InterruptedException {
         RentManager rentManager = new RentManager();
-        List<Tenant> result = rentManager.getEntities(Tenant.class, null, Collections.singletonList("Addresses"), Collections.singletonList("LastFirst"));
+        List<Tenant> result = rentManager.getEntities(Tenant.class, null,
+                List.of("Addresses", "Contacts.Addresses", "Contacts.PhoneNumbers", "Contacts.PhoneNumbers.PhoneNumberType", "PrimaryContact", "PrimaryContact.PhoneNumbers"), Collections.singletonList("LastFirst"));
         System.out.println(result);
     }
 

@@ -52,4 +52,8 @@ public class Tenant {
     @JsonProperty("DoNotChargeLateFees")
     public Boolean doNotChargeLateFees;
 
+    @JsonProperty("Contacts")
+    public List<Contact> contacts;
+    @JsonProperty("PrimaryContact")
+    public Contact primaryContact;
 }
