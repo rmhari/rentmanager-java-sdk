@@ -1,22 +1,10 @@
 package com.rentmanager.client.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "LeaseID",
-        "TenantID",
-        "UnitID",
-        "PropertyID",
-        "MoveInDate",
-        "SortOrder",
-        "CreateDate",
-        "UpdateDate",
-        "CreateUserID",
-        "UpdateUserID"
-})
+import java.beans.JavaBean;
+
+@JavaBean(defaultProperty = "Leases")
 public class Lease {
 
     @JsonProperty("LeaseID")

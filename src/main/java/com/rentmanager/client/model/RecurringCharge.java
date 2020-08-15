@@ -1,29 +1,10 @@
 package com.rentmanager.client.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "RecurringChargeID",
-        "EntityType",
-        "EntityKeyID",
-        "UnitID",
-        "Frequency",
-        "ChargeTypeID",
-        "Amount",
-        "Comment",
-        "FromDate",
-        "ToDate",
-        "Calculation",
-        "SortOrder",
-        "CreateDate",
-        "CreateUserID",
-        "UpdateDate",
-        "UpdateUserID",
-        "ChargeType"
-})
+import java.beans.JavaBean;
+
+@JavaBean(defaultProperty = "RecurringCharges")
 public class RecurringCharge {
 
     @JsonProperty("RecurringChargeID")

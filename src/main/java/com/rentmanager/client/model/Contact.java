@@ -1,37 +1,10 @@
 package com.rentmanager.client.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.Date;
 import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "ContactID",
-        "FirstName",
-        "LastName",
-        "MiddleName",
-        "IsPrimary",
-        "FederalTaxID",
-        "Comment",
-        "Email",
-        "License",
-        "Vehicle",
-        "IsShowOnBill",
-        "Employer",
-        "ApplicantType",
-        "CreateDate",
-        "CreateUserID",
-        "UpdateDate",
-        "AnnualIncome",
-        "UpdateUserID",
-        "ParentID",
-        "ParentType",
-        "PhoneNumbers",
-        "Addresses"
-})
 public class Contact {
 
     @JsonProperty("ContactID")
