@@ -21,4 +21,4 @@ jobs:
       with:
         java-version: 11
     - name: Build with Maven
-      run: mvn -B deploy -Dregistry=https://maven.pkg.github.com/techatpark -Dtoken=${{ secrets.GH_PACKAGE_TOKEN }} --file pom.xml
+      run: mvn -B deploy -Dregistry=https://maven.pkg.github.com/techatpark -Dtoken=${{ secrets.GITHUB_TOKEN }} --file pom.xml
