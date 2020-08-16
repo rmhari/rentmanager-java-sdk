@@ -1,8 +1,10 @@
 package com.rentmanager.client.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.beans.JavaBean;
+import java.util.Date;
 
 @JavaBean(defaultProperty = "RecurringCharges")
 public class RecurringCharge {
@@ -24,9 +26,11 @@ public class RecurringCharge {
     @JsonProperty("Comment")
     public String comment;
     @JsonProperty("FromDate")
-    public String fromDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date fromDate;
     @JsonProperty("ToDate")
-    public String toDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date toDate;
     @JsonProperty("Calculation")
     public String calculation;
     @JsonProperty("SortOrder")
