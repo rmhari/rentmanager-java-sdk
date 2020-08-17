@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.List;
 
+@JavaBean(defaultProperty = "Contacts")
 public class Contact {
 
     @JsonProperty("ContactID")
