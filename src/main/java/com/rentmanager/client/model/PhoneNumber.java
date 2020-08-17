@@ -1,21 +1,8 @@
 package com.rentmanager.client.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "PhoneNumberID",
-        "PhoneNumberTypeID",
-        "PhoneNumber",
-        "Extension",
-        "StrippedPhoneNumber",
-        "IsPrimary",
-        "ParentID",
-        "ParentType",
-        "PhoneNumberType"
-})
+
 public class PhoneNumber {
 
     @JsonProperty("PhoneNumberID")

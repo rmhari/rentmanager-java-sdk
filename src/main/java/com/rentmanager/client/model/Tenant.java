@@ -51,7 +51,6 @@ public class Tenant {
     public String firstContact;
     @JsonProperty("DoNotChargeLateFees")
     public Boolean doNotChargeLateFees;
-
     @JsonProperty("Contacts")
     public List<Contact> contacts;
     @JsonProperty("PrimaryContact")

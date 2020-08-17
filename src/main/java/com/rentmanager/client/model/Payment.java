@@ -1,13 +1,9 @@
 package com.rentmanager.client.model;
 
-import java.beans.JavaBean;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.beans.JavaBean;
+import java.util.List;
 @JavaBean(defaultProperty = "Payments")
 public class Payment {
 
@@ -55,19 +51,6 @@ public class Payment {
     public Double amount;
     @JsonProperty("TransactionDate")
     public String transactionDate;
-    @JsonProperty("EpayTransactionInformationDetail")
-    public EpayTransactionInformationDetail epayTransactionInformationDetail;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-    return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-    this.additionalProperties.put(name, value);
-    }
 
 }
