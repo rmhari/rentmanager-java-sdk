@@ -2,6 +2,8 @@ package com.rentmanager.client.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.beans.JavaBean;
+
 @JavaBean(defaultProperty = "AccountingPeriodSeries")
 public class AccountingPeriodSeries {
 
