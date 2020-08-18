@@ -3,9 +3,11 @@ package com.rentmanager.client.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.beans.JavaBean;
 import java.util.Date;
 import java.util.List;
 
+@JavaBean(defaultProperty = "Contacts")
 public class Contact {
 
     @JsonProperty("ContactID")

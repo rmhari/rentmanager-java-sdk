@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.beans.JavaBean;
 
-@JavaBean(defaultProperty = "ChargeTypes")
-public class ChargeType {
+@JavaBean(defaultProperty = "AssetTypes")
+public class AssetType {
 
-    @JsonProperty("ChargeTypeID")
-    public Integer chargeTypeID;
+    @JsonProperty("AssetTypeID")
+    public Integer assetTypeID;
     @JsonProperty("Name")
     public String name;
     @JsonProperty("Description")
