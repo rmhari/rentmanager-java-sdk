@@ -61,8 +61,8 @@ public class Credit {
 //    public Property_ property;
     @JsonProperty("Tenant")
     public Tenant tenant;
-    @JsonProperty("Prospect")
-    public Prospect prospect;
+//    @JsonProperty("Prospect")
+//    public Prospect prospect;
     @JsonProperty("CreateUser")
     public CreateUser createUser;
     @JsonProperty("UpdateUser")
