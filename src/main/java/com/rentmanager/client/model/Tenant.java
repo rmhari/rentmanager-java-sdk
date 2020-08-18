@@ -34,11 +34,15 @@ public class Tenant {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     public Date postingStartDate;
     @JsonProperty("PostingEndDate")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     public String postingEndDate;
     @JsonProperty("CreateDate")
     public String createDate;
     @JsonProperty("CreateUserID")
-    public Integer createUserID;
+    public
+
+
+    Integer createUserID;
     @JsonProperty("UpdateDate")
     public String updateDate;
     @JsonProperty("UpdateUserID")

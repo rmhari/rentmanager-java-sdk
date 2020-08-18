@@ -29,12 +29,6 @@ public class WebUserAccount {
     public String accountType;
     @JsonProperty("Tenant")
     public Tenant tenant;
-    @JsonProperty("Owner")
-    public Owner owner;
-    @JsonProperty("Prospect")
-    public Prospect prospect;
-    @JsonProperty("OwnerProspect")
-    public OwnerProspect ownerProspect;
     @JsonProperty("WebUserAccountAutomaticPaymentSetting")
     public WebUserAccountAutomaticPaymentSetting webUserAccountAutomaticPaymentSetting;
 

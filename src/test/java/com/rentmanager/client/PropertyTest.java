@@ -1,13 +1,9 @@
 package com.rentmanager.client;
 
-import com.rentmanager.client.model.Property;
-import com.rentmanager.client.model.Tenant;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PropertyTest {
     @Test

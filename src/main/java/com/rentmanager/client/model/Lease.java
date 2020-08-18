@@ -1,8 +1,10 @@
 package com.rentmanager.client.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.beans.JavaBean;
+import java.util.Date;
 
 @JavaBean(defaultProperty = "Leases")
 public class Lease {
@@ -16,7 +18,11 @@ public class Lease {
     @JsonProperty("PropertyID")
     public Integer propertyID;
     @JsonProperty("MoveInDate")
-    public String moveInDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date moveInDate;
+    @JsonProperty("MoveOutDate")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date moveOutDate;
     @JsonProperty("SortOrder")
     public Integer sortOrder;
     @JsonProperty("CreateDate")

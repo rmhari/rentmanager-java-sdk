@@ -1,5 +1,6 @@
 package com.rentmanager.client.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
@@ -52,5 +53,6 @@ public class Contact {
     @JsonProperty("Addresses")
     public List<Address> addresses = null;
     @JsonProperty("DateOfBirth")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     public Date dateOfBirth;
 }

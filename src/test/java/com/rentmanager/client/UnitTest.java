@@ -1,12 +1,10 @@
 package com.rentmanager.client;
 
-import com.rentmanager.client.model.Property;
 import com.rentmanager.client.model.Unit;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UnitTest {
 
