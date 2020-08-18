@@ -1,5 +1,6 @@
 package com.rentmanager.client;
 
+import com.rentmanager.client.model.Property;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
