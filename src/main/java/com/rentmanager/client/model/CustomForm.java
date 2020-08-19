@@ -38,8 +38,8 @@ public class CustomForm {
     public CreateUser createUser;
     @JsonProperty("UpdateUser")
     public UpdateUser updateUser;
-//    @JsonProperty("SystemReport")
-//    public SystemReport systemReport;
+    @JsonProperty("SystemReport")
+    public SystemReport systemReport;
     @JsonProperty("DefaultOwners")
     public List<Object> defaultOwners = null;
     @JsonProperty("DefaultProperties")
