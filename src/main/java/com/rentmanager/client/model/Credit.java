@@ -1,8 +1,10 @@
 package com.rentmanager.client.model;
 
 import java.beans.JavaBean;
+import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -18,15 +20,18 @@ public class Credit {
     @JsonProperty("TransactionType")
     public String transactionType;
     @JsonProperty("CreateDate")
-    public String createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date createDate;
     @JsonProperty("UpdateDate")
-    public String updateDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date updateDate;
     @JsonProperty("CreateUserID")
     public Integer createUserID;
     @JsonProperty("UpdateUserID")
     public Integer updateUserID;
     @JsonProperty("TransactionDate")
-    public String transactionDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date transactionDate;
     @JsonProperty("PropertyID")
     public Integer propertyID;
     @JsonProperty("UnitID")
@@ -55,14 +60,14 @@ public class Credit {
     public List<Object> preallocations = null;
     @JsonProperty("ChargeType")
     public ChargeType chargeType;
-//    @JsonProperty("Unit")
-//    public Unit_ unit;
-//    @JsonProperty("Property")
-//    public Property_ property;
+    @JsonProperty("Unit")
+    public Unit unit;
+    @JsonProperty("Property")
+    public Property property;
     @JsonProperty("Tenant")
     public Tenant tenant;
-//    @JsonProperty("Prospect")
-//    public Prospect prospect;
+    @JsonProperty("Prospect")
+    public Prospect prospect;
     @JsonProperty("CreateUser")
     public CreateUser createUser;
     @JsonProperty("UpdateUser")

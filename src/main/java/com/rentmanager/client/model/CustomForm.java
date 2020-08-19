@@ -1,8 +1,10 @@
 package com.rentmanager.client.model;
 
 import java.beans.JavaBean;
+import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JavaBean(defaultProperty = "CustomForms")
@@ -23,11 +25,13 @@ public class CustomForm {
     @JsonProperty("IsTypeSystemDefault")
     public Boolean isTypeSystemDefault;
     @JsonProperty("CreateDate")
-    public String createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date createDate;
     @JsonProperty("CreateUserID")
     public Integer createUserID;
     @JsonProperty("UpdateDate")
-    public String updateDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date updateDate;
     @JsonProperty("UpdateUserID")
     public Integer updateUserID;
     @JsonProperty("CreateUser")

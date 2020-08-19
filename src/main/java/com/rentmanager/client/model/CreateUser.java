@@ -27,10 +27,11 @@ public class CreateUser {
     @JsonProperty("Email")
     public String email;
     @JsonProperty("LockoutDate")
-    public Date lockoutDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date lockoutDate;
     @JsonProperty("LastPasswordChangeDate")
-    public String lastPasswordChangeDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date lastPasswordChangeDate;
     @JsonProperty("PhoneSystemExtension")
     public String phoneSystemExtension;
     @JsonProperty("CreateDate")
