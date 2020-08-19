@@ -1,11 +1,10 @@
 package com.rentmanager.client.model;
 
+import java.beans.JavaBean;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.beans.JavaBean;
-import java.util.Date;
-import java.util.List;
 
 @JavaBean(defaultProperty = "Contacts")
 public class Contact {
@@ -20,6 +19,8 @@ public class Contact {
     public String middleName;
     @JsonProperty("IsPrimary")
     public Boolean isPrimary;
+    @JsonProperty("ContactType")
+    public ContactType contactType;
     @JsonProperty("FederalTaxID")
     public String federalTaxID;
     @JsonProperty("Comment")
@@ -34,13 +35,13 @@ public class Contact {
     public Boolean isShowOnBill;
     @JsonProperty("Employer")
     public String employer;
-    @JsonProperty("ApplicantType")
-    public String applicantType;
     @JsonProperty("CreateDate")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     public String createDate;
     @JsonProperty("CreateUserID")
     public Integer createUserID;
     @JsonProperty("UpdateDate")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     public String updateDate;
     @JsonProperty("AnnualIncome")
     public Float annualIncome;
@@ -51,10 +52,20 @@ public class Contact {
     @JsonProperty("ParentType")
     public String parentType;
     @JsonProperty("PhoneNumbers")
-    public List<PhoneNumber> phoneNumbers = null;
+    public List<Object> phoneNumbers = null;
+    @JsonProperty("Tenant")
+    public Tenant tenant;
+    @JsonProperty("Prospect")
+    public Prospect prospect;
+    @JsonProperty("Vendor")
+    public Vendor vendor;
+    @JsonProperty("Owner")
+    public Owner owner;
+    @JsonProperty("UserDefinedValues")
+    public List<Object> userDefinedValues = null;
     @JsonProperty("Addresses")
-    public List<Address> addresses = null;
-    @JsonProperty("DateOfBirth")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
-    public Date dateOfBirth;
+    public List<Object> addresses = null;
+    @JsonProperty("Image")
+    public Image image;
+
 }

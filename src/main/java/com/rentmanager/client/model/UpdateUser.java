@@ -1,6 +1,9 @@
 package com.rentmanager.client.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Date;
 
 public class UpdateUser {
     @JsonProperty("UserID")
@@ -24,17 +27,20 @@ public class UpdateUser {
     @JsonProperty("Email")
     public String email;
     @JsonProperty("LockoutDate")
-    public String lockoutDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date lockoutDate;
     @JsonProperty("LastPasswordChangeDate")
     public String lastPasswordChangeDate;
     @JsonProperty("PhoneSystemExtension")
     public String phoneSystemExtension;
     @JsonProperty("CreateDate")
-    public String createDate;
+    public Date createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     @JsonProperty("CreateUserID")
     public Integer createUserID;
     @JsonProperty("UpdateDate")
-    public String updateDate;
+    public Date updateDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     @JsonProperty("UpdateUserID")
     public Integer updateUserID;
     @JsonProperty("DefaultLocationID")

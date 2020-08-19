@@ -39,10 +39,7 @@ public class Tenant {
     @JsonProperty("CreateDate")
     public String createDate;
     @JsonProperty("CreateUserID")
-    public
-
-
-    Integer createUserID;
+    public Integer createUserID;
     @JsonProperty("UpdateDate")
     public String updateDate;
     @JsonProperty("UpdateUserID")
