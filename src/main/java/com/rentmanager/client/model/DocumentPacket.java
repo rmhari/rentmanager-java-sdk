@@ -1,8 +1,10 @@
 package com.rentmanager.client.model;
 
 import java.beans.JavaBean;
+import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -24,21 +26,23 @@ public class DocumentPacket {
     @JsonProperty("IsAllUsers")
     public Boolean isAllUsers;
     @JsonProperty("CreateDate")
-    public String createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date createDate;
     @JsonProperty("CreateUserID")
     public Integer createUserID;
     @JsonProperty("UpdateDate")
-    public String updateDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date updateDate;
     @JsonProperty("UpdateUserID")
     public Integer updateUserID;
     @JsonProperty("ConcurrencyID")
     public Integer concurrencyID;
     @JsonProperty("Documents")
     public List<Document> documents = null;
-//    @JsonProperty("DocumentPacketProperties")
-//    public List<DocumentPacketProperty> documentPacketProperties = null;
-//    @JsonProperty("DocumentPacketUsers")
-//    public List<DocumentPacketUser> documentPacketUsers = null;
+    @JsonProperty("DocumentPacketProperties")
+    public List<DocumentPacketProperty> documentPacketProperties = null;
+    @JsonProperty("DocumentPacketUsers")
+    public List<DocumentPacketUser> documentPacketUsers = null;
     @JsonProperty("DocumentPacketRoles")
     public List<Object> documentPacketRoles = null;
 

@@ -8,7 +8,7 @@ public class DocumentPacketUser {
     public Integer documentPacketUserID;
     @JsonProperty("DocumentPacketID")
     public Integer documentPacketID;
-//    @JsonProperty("User")
-//    public User user;
+    @JsonProperty("User")
+    public User user;
 
 }
