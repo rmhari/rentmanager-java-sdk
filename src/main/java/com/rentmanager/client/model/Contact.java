@@ -36,6 +36,8 @@ public class Contact {
     public Boolean isShowOnBill;
     @JsonProperty("Employer")
     public String employer;
+    @JsonProperty("ApplicantType")
+    public String applicantType;
     @JsonProperty("CreateDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     public Date createDate;
@@ -53,7 +55,7 @@ public class Contact {
     @JsonProperty("ParentType")
     public String parentType;
     @JsonProperty("PhoneNumbers")
-    public List<Object> phoneNumbers = null;
+    public List<PhoneNumber> phoneNumbers = null;
     @JsonProperty("Tenant")
     public Tenant tenant;
     @JsonProperty("Prospect")
@@ -65,7 +67,7 @@ public class Contact {
     @JsonProperty("UserDefinedValues")
     public List<Object> userDefinedValues = null;
     @JsonProperty("Addresses")
-    public List<Object> addresses = null;
+    public List<Address> addresses = null;
     @JsonProperty("Image")
     public Image image;
 

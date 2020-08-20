@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.beans.JavaBean;
+import java.util.Date;
 
 @JavaBean(defaultProperty = "RecurringCharges")
 public class RecurringCharge {
@@ -20,14 +21,16 @@ public class RecurringCharge {
     public Integer frequency;
     @JsonProperty("ChargeTypeID")
     public Integer chargeTypeID;
+    @JsonProperty("Amount")
+    public Float amount;
     @JsonProperty("Comment")
     public String comment;
     @JsonProperty("FromDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
-    public String fromDate;
+    public Date fromDate;
     @JsonProperty("ToDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
-    public String toDate;
+    public Date toDate;
     @JsonProperty("IsCalculated")
     public Boolean isCalculated;
     @JsonProperty("Calculation")
@@ -36,12 +39,12 @@ public class RecurringCharge {
     public Integer sortOrder;
     @JsonProperty("CreateDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
-    public String createDate;
+    public Date createDate;
     @JsonProperty("CreateUserID")
     public Integer createUserID;
     @JsonProperty("UpdateDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
-    public String updateDate;
+    public Date updateDate;
     @JsonProperty("UpdateUserID")
     public Integer updateUserID;
     @JsonProperty("ChargeType")
