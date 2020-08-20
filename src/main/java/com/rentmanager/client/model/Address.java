@@ -26,5 +26,8 @@ public class Address {
     public String parentType;
     @JsonProperty("AddressType")
     public AddressType addressType;
+    @JsonProperty("IsBilling")
+    public Boolean isBilling;
+
 
 }

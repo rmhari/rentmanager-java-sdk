@@ -66,6 +66,8 @@ public class Property {
     public String lastManagementFeePost;
     @JsonProperty("PhoneNumbers")
     public List<PhoneNumber> phoneNumbers = null;
+    @JsonProperty("Addresses")
+    public List<Address> addresses = null;
     @JsonProperty("IsCommercial")
     public Boolean isCommercial;
     @JsonProperty("LastDailyPost")
