@@ -34,6 +34,8 @@ public class Property {
     public String comment;
     @JsonProperty("IsSystemDefaultAssignedUser")
     public Boolean isSystemDefaultAssignedUser;
+    @JsonProperty("IsAllocationOrderSortedByMonth")
+    public Boolean isAllocationOrderSortedByMonth;
     @JsonProperty("CreateDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     public Date createDate;
@@ -64,5 +66,9 @@ public class Property {
     public String lastManagementFeePost;
     @JsonProperty("PhoneNumbers")
     public List<PhoneNumber> phoneNumbers = null;
+    @JsonProperty("IsCommercial")
+    public Boolean isCommercial;
+    @JsonProperty("LastDailyPost")
+    public String lastDailyPost;
 
 }

@@ -34,5 +34,7 @@ public class Unit {
     public Integer updateUserID;
     @JsonProperty("Addresses")
     public List<Address> addresses = null;
+    @JsonProperty("CurrentOccupants")
+    public List<CurrentOccupant> currentOccupants = null;
 
 }
