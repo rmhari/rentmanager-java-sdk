@@ -22,6 +22,8 @@ public class Contact {
     public Boolean isPrimary;
     @JsonProperty("ContactType")
     public ContactType contactType;
+    @JsonProperty("DateOfBirth")
+    public Date dateOfBirth;
     @JsonProperty("FederalTaxID")
     public String federalTaxID;
     @JsonProperty("Comment")
