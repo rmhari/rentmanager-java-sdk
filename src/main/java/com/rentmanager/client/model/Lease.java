@@ -26,9 +26,11 @@ public class Lease {
     @JsonProperty("SortOrder")
     public Integer sortOrder;
     @JsonProperty("CreateDate")
-    public String createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date createDate;
     @JsonProperty("UpdateDate")
-    public String updateDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date updateDate;
     @JsonProperty("CreateUserID")
     public Integer createUserID;
     @JsonProperty("UpdateUserID")

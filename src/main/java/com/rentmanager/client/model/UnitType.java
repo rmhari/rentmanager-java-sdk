@@ -1,8 +1,10 @@
 package com.rentmanager.client.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.beans.JavaBean;
+import java.util.Date;
 import java.util.List;
 
 @JavaBean(defaultProperty = "UnitTypes")
@@ -15,11 +17,13 @@ public class UnitType {
     @JsonProperty("Comment")
     public String comment;
     @JsonProperty("CreateDate")
-    public String createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date createDate;
     @JsonProperty("CreateUserID")
     public Integer createUserID;
     @JsonProperty("UpdateDate")
-    public String updateDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date updateDate;
     @JsonProperty("UpdateUserID")
     public Integer updateUserID;
     @JsonProperty("RecurringCharges")
