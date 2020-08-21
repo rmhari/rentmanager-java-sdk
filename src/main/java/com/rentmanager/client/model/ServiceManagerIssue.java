@@ -13,3 +13,4 @@ public class ServiceManagerIssue {
     public String title;
 
 }
+
