@@ -6,25 +6,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.beans.JavaBean;
 import java.util.Date;
 
-@JavaBean(defaultProperty = "LetterTemplates")
-public class LetterTemplate {
+@JavaBean(defaultProperty = "MakeReadyActions")
+public class MakeReadyAction {
 
-    @JsonProperty("LetterTemplateID")
-    public Integer letterTemplateID;
+    @JsonProperty("MakeReadyActionID")
+    public Integer makeReadyActionID;
     @JsonProperty("Name")
     public String name;
-    @JsonProperty("LetterTemplateType")
-    public String letterTemplateType;
     @JsonProperty("Description")
     public String description;
-    @JsonProperty("Token")
-    public String token;
-    @JsonProperty("IsAllUsers")
-    public Boolean isAllUsers;
-    @JsonProperty("RecordsPerPage")
-    public Integer recordsPerPage;
-    @JsonProperty("ScriptBeforeMerge")
-    public String scriptBeforeMerge;
+    @JsonProperty("SortOrder")
+    public Integer sortOrder;
     @JsonProperty("CreateDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     public Date createDate;
@@ -37,11 +29,9 @@ public class LetterTemplate {
     public Integer updateUserID;
     @JsonProperty("ConcurrencyID")
     public Integer concurrencyID;
-    @JsonProperty("VPOToAddress")
-    public String vPOToAddress;
-    @JsonProperty("VPOFromAddress")
-    public String vPOFromAddress;
-    @JsonProperty("SortOrder")
-    public Integer sortOrder;
+    @JsonProperty("CreateUser")
+    public CreateUser createUser;
+    @JsonProperty("UpdateUser")
+    public UpdateUser updateUser;
 
 }
