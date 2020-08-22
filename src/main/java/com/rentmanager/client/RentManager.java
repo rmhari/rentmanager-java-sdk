@@ -14,11 +14,12 @@ import java.util.List;
 public class RentManager {
     private final String url;
     private final String token;
-    ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     public RentManager(String url, String userName, String password) throws IOException, InterruptedException {
         this.url = url;
         this.token = getToken(userName, password);
+        this.objectMapper = new ObjectMapper();
     }
 
     public RentManager() throws IOException, InterruptedException {
