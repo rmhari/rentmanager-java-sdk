@@ -20,7 +20,7 @@ public class RentManager {
         this.token = getToken(userName, password);
         this.objectMapper = new ObjectMapper();
     }
-    static RentManagerBuilder newRentManagerBuilder() {
+    public static RentManagerBuilder newRentManagerBuilder() {
         return newRentManagerBuilder();
     }
 
