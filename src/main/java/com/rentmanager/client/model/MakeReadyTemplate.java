@@ -3,9 +3,10 @@ package com.rentmanager.client.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.beans.JavaBean;
 import java.util.Date;
 
-
+@JavaBean(defaultProperty = "MakeReadyTemplates")
 public class MakeReadyTemplate {
 
     @JsonProperty("MakeReadyTemplateID")
