@@ -10,7 +10,7 @@ public class UnitTest {
 
     @Test
     void testRentManager() throws IOException, InterruptedException {
-        RentManager rentManager = new RentManager();
+        RentManager rentManager = new RentManager.RentManagerBuilder().build();
         List<Unit> unitsRentManager = rentManager.getEntities(Unit.class, null,
                 List.of("Addresses", "Addresses.AddressType"), null, null);
     }

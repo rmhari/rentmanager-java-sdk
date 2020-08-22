@@ -9,7 +9,7 @@ import java.util.List;
 public class PropertyTest {
     @Test
     void testRentManager() throws IOException, InterruptedException {
-        RentManager rentManager = new RentManager();
+        RentManager rentManager = new RentManager.RentManagerBuilder().build();
         List<Property> properties = rentManager.getEntities(Property.class, null,
                 List.of("PhoneNumbers", "PhoneNumbers.PhoneNumberType", "Addresses", "Addresses.AddressType"), null, null);
     }

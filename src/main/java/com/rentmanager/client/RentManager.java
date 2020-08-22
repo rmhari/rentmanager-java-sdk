@@ -16,15 +16,15 @@ public class RentManager {
     private final String token;
     private final ObjectMapper objectMapper;
 
-    public RentManager(String url, String userName, String password) throws IOException, InterruptedException {
+    private RentManager(String url, String userName, String password) throws IOException, InterruptedException {
         this.url = url;
         this.token = getToken(userName, password);
         this.objectMapper = new ObjectMapper();
     }
-
-    public RentManager() throws IOException, InterruptedException {
-        this(System.getenv("RENTMANAGER_URL"), System.getenv("RENTMANAGER_USERNAME"), System.getenv("RENTMANAGER_PASSWORD"));
+    static RentManagerBuilder newRentManagerBuilder() {
+        return newRentManagerBuilder();
     }
+
 
     private String getToken(String userName, String password) throws IOException, InterruptedException {
         String token = null;
@@ -61,5 +61,31 @@ public class RentManager {
     public <T> List<T> getEntities(Class<T> clazz, List<String> fields, List<String> embeds, List<String> ordering, String filterExpression) throws IOException, InterruptedException {
         return new RequestBuilder(clazz, url, token).getEntities(fields, embeds, ordering, filterExpression);
     }
+
+    static class RentManagerBuilder {
+        private String url = System.getenv("RENTMANAGER_URL");
+        private String userName = System.getenv("RENTMANAGER_USERNAME");
+        private String password = System.getenv("RENTMANAGER_PASSWORD");
+
+        RentManagerBuilder url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public RentManagerBuilder userName(String userName) {
+            this.userName = userName;
+            return this;
+        }
+
+        public RentManagerBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public RentManager build() throws IOException, InterruptedException {
+            return new RentManager(url,userName,password);
+        }
+    }
+
 
 }
