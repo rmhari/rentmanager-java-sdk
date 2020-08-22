@@ -7,6 +7,12 @@
     <groupId>com.rentmanager.client</groupId>
     <artifactId>rentmanager-java-sdk</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <scm>
+        <connection>scm:git:https://sathishk@github.com/techatpark/rentmanager-java-sdk.git</connection>
+        <developerConnection>scm:git:https://sathishk@github.com/techatpark/rentmanager-java-sdk.git</developerConnection>
+    </scm>
+
     <build>
         <plugins>
             <plugin>
