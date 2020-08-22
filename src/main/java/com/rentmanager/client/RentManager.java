@@ -9,7 +9,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.List;
 
 public class RentManager {
     private final String url;
@@ -58,8 +57,8 @@ public class RentManager {
 
     }
 
-    public <T> List<T> getEntities(Class<T> clazz, List<String> fields, List<String> embeds, List<String> ordering, String filterExpression) throws IOException, InterruptedException {
-        return new RequestBuilder(clazz, url, token).getEntities(fields, embeds, ordering, filterExpression);
+    public <T> RequestBuilder<T> newRequestBuilder(Class<T> clazz) throws IOException, InterruptedException {
+        return new RequestBuilder(clazz, url, token);
     }
 
     static class RentManagerBuilder {
