@@ -1,6 +1,9 @@
 package com.rentmanager.client.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Date;
 
 public class Prospect {
 
@@ -21,11 +24,13 @@ public class Prospect {
     @JsonProperty("Comment")
     public String comment;
     @JsonProperty("CreateDate")
-    public String createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date createDate;
     @JsonProperty("CreateUserID")
     public Integer createUserID;
     @JsonProperty("UpdateDate")
-    public String updateDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date updateDate;
     @JsonProperty("UpdateUserID")
     public Integer updateUserID;
     @JsonProperty("ProspectStatus")
@@ -33,7 +38,8 @@ public class Prospect {
     @JsonProperty("ProspectLostReasonDescription")
     public String prospectLostReasonDescription;
     @JsonProperty("LastStatusChangedDate")
-    public String lastStatusChangedDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date lastStatusChangedDate;
     @JsonProperty("FirstContact")
     public String firstContact;
     @JsonProperty("LastHistoryItem")
