@@ -3,7 +3,9 @@ package com.rentmanager.client.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.beans.JavaBean;
 
+@JavaBean(defaultProperty = "Privileges")
 public class Privilege {
 
     @JsonProperty("PrivilegeID")
