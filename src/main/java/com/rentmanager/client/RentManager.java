@@ -61,7 +61,7 @@ public class RentManager {
         return new RequestBuilder(clazz, url, token);
     }
 
-    static class RentManagerBuilder {
+    public static class RentManagerBuilder {
         private String url = System.getenv("RENTMANAGER_URL");
         private String userName = System.getenv("RENTMANAGER_USERNAME");
         private String password = System.getenv("RENTMANAGER_PASSWORD");
