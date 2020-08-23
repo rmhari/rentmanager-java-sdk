@@ -21,7 +21,7 @@ public class RentManager {
         this.objectMapper = new ObjectMapper();
     }
     public static RentManagerBuilder newRentManagerBuilder() {
-        return newRentManagerBuilder();
+        return new RentManagerBuilder();
     }
 
 
