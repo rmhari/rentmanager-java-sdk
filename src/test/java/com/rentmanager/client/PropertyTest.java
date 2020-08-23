@@ -10,7 +10,7 @@ public class PropertyTest {
     @Test
     void testRentManager() throws IOException, InterruptedException {
         RentManager rentManager = new RentManager.RentManagerBuilder().build();
-        List<Property> properties = rentManager.getEntities(Property.class, null,
+        List<Property> properties = rentManager.newRequestBuilder(Property.class).getEntities(null,
                 List.of("PhoneNumbers", "PhoneNumbers.PhoneNumberType", "Addresses", "Addresses.AddressType"), null, null);
     }
 
