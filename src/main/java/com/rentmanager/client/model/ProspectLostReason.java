@@ -6,18 +6,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.beans.JavaBean;
 import java.util.Date;
 
-@JavaBean(defaultProperty = "PropertyManagementFeeSetup")
-public class PropertyManagementFeeSetup {
+@JavaBean(defaultProperty = "ProspectLostReasons")
+public class ProspectLostReason {
 
-    @JsonProperty("PropertyManagementFeeSetupID")
-    public Integer propertyManagementFeeSetupID;
-    @JsonProperty("PropertyID")
-    public Integer propertyID;
-    @JsonProperty("ManagementFeeSetupID")
-    public Integer managementFeeSetupID;
-    @JsonProperty("ActiveStartDate")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
-    public Date activeStartDate;
+    @JsonProperty("ProspectLostReasonID")
+    public Integer prospectLostReasonID;
+    @JsonProperty("ProspectStatus")
+    public String prospectStatus;
+    @JsonProperty("Name")
+    public String name;
+    @JsonProperty("Description")
+    public String description;
+    @JsonProperty("IsActive")
+    public Boolean isActive;
+    @JsonProperty("SortOrder")
+    public Integer sortOrder;
     @JsonProperty("CreateDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     public Date createDate;
@@ -28,5 +31,9 @@ public class PropertyManagementFeeSetup {
     public Date updateDate;
     @JsonProperty("UpdateUserID")
     public Integer updateUserID;
+    @JsonProperty("CreateUser")
+    public CreateUser createUser;
+    @JsonProperty("UpdateUser")
+    public UpdateUser updateUser;
 
 }
