@@ -54,6 +54,8 @@ public class Screening {
     public List<ScreeningResponse> screeningResponses = null;
     @JsonProperty("Property")
     public Property property;
+    @JsonProperty("Protected")
+    public Boolean _protected;
     @JsonProperty("ScreeningReportExportType")
     public String screeningReportExportType;
 
