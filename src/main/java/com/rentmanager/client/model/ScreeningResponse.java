@@ -1,28 +1,11 @@
 package com.rentmanager.client.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.beans.JavaBean;
 import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "ScreeningResponseID",
-        "ScreeningID",
-        "ContactID",
-        "Agency",
-        "Score",
-        "ScoreDate",
-        "RangeMinimum",
-        "RangeMaximum",
-        "CreateUserID",
-        "CreateDate",
-        "UpdateUserID",
-        "UpdateDate",
-        "ConcurrencyID",
-        "ScreeningResponseFactors"
-})
+@JavaBean(defaultProperty = "ScreeningResponses")
 public class ScreeningResponse {
 
     @JsonProperty("ScreeningResponseID")
@@ -51,6 +34,14 @@ public class ScreeningResponse {
     public String updateDate;
     @JsonProperty("ConcurrencyID")
     public Integer concurrencyID;
+    @JsonProperty("Screening")
+    public Screening screening;
+    @JsonProperty("Contact")
+    public Contact contact;
+    @JsonProperty("CreateUser")
+    public CreateUser createUser;
+    @JsonProperty("UpdateUser")
+    public UpdateUser updateUser;
     @JsonProperty("ScreeningResponseFactors")
     public List<ScreeningResponseFactor> screeningResponseFactors = null;
 

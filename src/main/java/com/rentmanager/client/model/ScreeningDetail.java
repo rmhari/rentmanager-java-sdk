@@ -3,6 +3,9 @@ package com.rentmanager.client.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.beans.JavaBean;
+
+@JavaBean(defaultProperty = "ScreeningDetails")
 public class ScreeningDetail {
 
     @JsonProperty("ScreeningDetailID")
@@ -41,5 +44,9 @@ public class ScreeningDetail {
     public String postalCode;
     @JsonProperty("AdditionalMappedFields")
     public String additionalMappedFields;
+    @JsonProperty("Screening")
+    public Screening screening;
+    @JsonProperty("Contact")
+    public Contact contact;
 
 }
