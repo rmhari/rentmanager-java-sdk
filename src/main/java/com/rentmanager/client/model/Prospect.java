@@ -3,8 +3,10 @@ package com.rentmanager.client.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.beans.JavaBean;
 import java.util.Date;
 
+@JavaBean(defaultProperty = "Prospects")
 public class Prospect {
 
     @JsonProperty("ProspectID")
@@ -41,8 +43,10 @@ public class Prospect {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
     public Date lastStatusChangedDate;
     @JsonProperty("FirstContact")
-    public String firstContact;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date firstContact;
     @JsonProperty("LastHistoryItem")
-    public String lastHistoryItem;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
+    public Date lastHistoryItem;
 
 }
