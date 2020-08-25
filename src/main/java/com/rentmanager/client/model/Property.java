@@ -75,7 +75,7 @@ public class Property {
     @JsonProperty("UpdateUser")
     public UpdateUser updateUser;
     @JsonProperty("PhoneNumbers")
-    public List<Object> phoneNumbers = null;
+    public List<PhoneNumber> phoneNumbers = null;
     @JsonProperty("PrimaryPhoneNumber")
     public PrimaryPhoneNumber primaryPhoneNumber;
     @JsonProperty("DefaultBank")
