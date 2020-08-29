@@ -68,6 +68,7 @@ public class RequestBuilder<T> {
         while ( (optionalEntries = getEntities(fields, embeds, ordering, filterExpression, MAXPAGESIZE, pageNumber)).isPresent()) {
 
             entries.addAll(optionalEntries.get());
+            pageNumber ++;
         }
 
         return Optional.ofNullable(entries);
