@@ -12,7 +12,7 @@ public class RecurringChargeTest {
     void testRentManager() throws IOException, InterruptedException {
         RentManager rentManager = new RentManager.RentManagerBuilder().build();
         List<RecurringCharge> recurringCharges = rentManager.newRequestBuilder(RecurringCharge.class).getEntities(null,
-                List.of("ChargeType"), null, null);
+                List.of("ChargeType"), null, null, null, null);
         System.out.println(recurringCharges);
     }
 

@@ -17,7 +17,7 @@ public class PaymentsTest {
     void testRentManager() throws IOException, InterruptedException {
         RentManager rentManager = new RentManager.RentManagerBuilder().url("https://epc.api.rentmanager.com").userName("heman").password("Eppo1234").build();
         List<Payment> result = rentManager.newRequestBuilder(Payment.class).getEntities( null,
-                List.of("Allocations", "Allocations.Charge", "Allocations.Charge.ChargeType", "EpayTransactionInformationDetail.EpayTransactionInformation", "EpayTransactionInformationDetail", "Tenant", "Tenant.Addresses"), Collections.singletonList("LastFirst"), null);
+                List.of("Allocations", "Allocations.Charge", "Allocations.Charge.ChargeType", "EpayTransactionInformationDetail.EpayTransactionInformation", "EpayTransactionInformationDetail", "Tenant", "Tenant.Addresses"), Collections.singletonList("LastFirst"), null, null, null);
         System.out.println(result);
         assertNotNull(result);
         assertTrue(result.size()>0);

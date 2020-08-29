@@ -19,7 +19,7 @@ class TenantTest {
 //        RentManager rentManager = new RentManager.RentManagerBuilder().createRentManager();
         RentManager rentManager = RentManager.newRentManagerBuilder().build();
         List<Tenant> result = rentManager.newRequestBuilder(Tenant.class).getEntities(null,
-                List.of("Addresses", "Contacts.Addresses", "Contacts.PhoneNumbers", "Contacts.PhoneNumbers.PhoneNumberType", "PrimaryContact", "PrimaryContact.PhoneNumbers"), Collections.singletonList("LastFirst"), null);
+                List.of("Addresses", "Contacts.Addresses", "Contacts.PhoneNumbers", "Contacts.PhoneNumbers.PhoneNumberType", "PrimaryContact", "PrimaryContact.PhoneNumbers"), Collections.singletonList("LastFirst"), null, null, null);
 
         System.out.println(result);
     }

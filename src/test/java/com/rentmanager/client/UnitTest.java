@@ -12,6 +12,6 @@ public class UnitTest {
     void testRentManager() throws IOException, InterruptedException {
         RentManager rentManager = new RentManager.RentManagerBuilder().build();
         List<Unit> unitsRentManager = rentManager.newRequestBuilder(Unit.class).getEntities(null,
-                List.of("Addresses", "Addresses.AddressType"), null, null);
+                List.of("Addresses", "Addresses.AddressType"), null, null, null, null);
     }
 }

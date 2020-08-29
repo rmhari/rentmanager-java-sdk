@@ -54,7 +54,8 @@ public class RequestBuilder<T> {
                 : Optional.of(resultString.substring(0, resultString.length() - 1));
     }
 
-    public List<T> getEntities(List<String> fields, List<String> embeds, List<String> ordering, String filterExpression) throws IOException, InterruptedException {
+    public List<T> getEntities(List<String> fields, List<String> embeds, List<String> ordering, String filterExpression, 
+            Integer pageSize, Integer pageNumber) throws IOException, InterruptedException {
 
         final HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
@@ -76,11 +77,16 @@ public class RequestBuilder<T> {
         if (filterExpression != null)  {
             requestParameters.put("filters", filterExpression);
         }
+        if (pageSize != null) {
+            requestParameters.put("PageSize", pageSize.toString());
+        }
+        if (pageNumber != null) {
+            requestParameters.put("PageNumber", pageNumber.toString());
+            
+        }
         getParamsString(requestParameters).ifPresent(paramString -> {
             entitiesUrl.append("?").append(paramString);
         });
-
-
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
