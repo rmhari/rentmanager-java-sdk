@@ -14,7 +14,7 @@ public class RecurringChargeTest {
     void testRentManager() throws RentManagerException {
         RentManager rentManager = new RentManager.RentManagerBuilder().build();
         Optional<List<RecurringCharge>> recurringCharges = rentManager.newRequestBuilder(RecurringCharge.class).getEntities(null,
-                List.of("ChargeType"), null, null);
+                List.of("ChargeType"), null, "Amount,2000", 1000, 100);
         recurringCharges.ifPresent(entities -> {
             System.out.println(entities);
         });
