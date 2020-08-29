@@ -58,17 +58,17 @@ public class RequestBuilder<T> {
                 : Optional.of(resultString.substring(0, resultString.length() - 1));
     }
 
-    public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering, String filterExpression) throws RentManagerException { 
+    public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering, String filterExpression) throws RentManagerException {
 
         Integer pageNumber = 1;
         List<T> entries = new ArrayList<>();
 
         Optional<List<T>> optionalEntries;
 
-        while ( (optionalEntries = getEntities(fields, embeds, ordering, filterExpression, MAXPAGESIZE, pageNumber)).isPresent()) {
+        while ((optionalEntries = getEntities(fields, embeds, ordering, filterExpression, MAXPAGESIZE, pageNumber)).isPresent()) {
 
             entries.addAll(optionalEntries.get());
-            pageNumber ++;
+            pageNumber++;
         }
 
         return Optional.ofNullable(entries);
@@ -76,7 +76,10 @@ public class RequestBuilder<T> {
 
 
     public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering, String filterExpression,
-                               Integer pageSize, Integer pageNumber) throws RentManagerException {
+                                         Integer pageSize, Integer pageNumber) throws RentManagerException {
+        if (pageSize > MAXPAGESIZE) {
+            throw new RentManagerException("max size exced", null);
+        }
         List<T> entities = null;
         final HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
@@ -122,11 +125,11 @@ public class RequestBuilder<T> {
 
             int responseCode = response.statusCode();
 
-            if (responseCode == HttpURLConnection.HTTP_OK || responseCode ==  HttpURLConnection.HTTP_PARTIAL) {
+            if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_PARTIAL) {
                 CollectionType javaType = objectMapper.getTypeFactory()
                         .constructCollectionType(List.class, this.clazz);
                 entities = objectMapper.readValue(response.body(), javaType);
-            }else if (responseCode != HttpURLConnection.HTTP_NO_CONTENT){
+            } else if (responseCode != HttpURLConnection.HTTP_NO_CONTENT) {
                 throw new RentManagerException("con't get entities ", null);
             }
 
