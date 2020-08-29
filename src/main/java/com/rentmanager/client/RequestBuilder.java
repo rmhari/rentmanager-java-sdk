@@ -65,10 +65,13 @@ public class RequestBuilder<T> {
 
         Optional<List<T>> optionalEntries;
 
+
         while ((optionalEntries = getEntities(fields, embeds, ordering, filterExpression, MAXPAGESIZE, pageNumber)).isPresent()) {
 
             entries.addAll(optionalEntries.get());
-            pageNumber++;
+            if (optionalEntries.get().size() == MAXPAGESIZE) pageNumber++;
+            else
+                break;
         }
 
         return Optional.ofNullable(entries.isEmpty() ? null : entries);
