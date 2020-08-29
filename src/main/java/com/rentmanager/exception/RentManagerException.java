@@ -4,6 +4,7 @@ import java.util.Map;
 
 public class RentManagerException extends Exception {
 
+    private Integer responseCode;
     private String developerMessage;
     private String userMessage;
     private Long errorCode;
@@ -39,6 +40,19 @@ public class RentManagerException extends Exception {
 
     public void setErrorCode(Long errorCode) {
         this.errorCode = errorCode;
+    }
+
+    public RentManagerException(Integer responseCode, String developerMessage, String userMessage, Long errorCode, String moreInfoUri, String exception, String details, String innerException, Map<String, Object> additionalData) {
+        super(userMessage);
+        this.responseCode = responseCode;
+        this.developerMessage = developerMessage;
+        this.userMessage = userMessage;
+        this.errorCode = errorCode;
+        this.moreInfoUri = moreInfoUri;
+        this.exception = exception;
+        this.details = details;
+        this.innerException = innerException;
+        this.additionalData = additionalData;
     }
 
     public String getMoreInfoUri() {

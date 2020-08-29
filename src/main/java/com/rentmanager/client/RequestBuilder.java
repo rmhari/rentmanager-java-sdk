@@ -106,6 +106,8 @@ public class RequestBuilder<T> {
                 CollectionType javaType = objectMapper.getTypeFactory()
                         .constructCollectionType(List.class, this.clazz);
                 return objectMapper.readValue(response.body(), javaType);
+            }else if (responseCode != HttpURLConnection.HTTP_NO_CONTENT){
+                throw new RentManagerException("con't get entities ", null);
             }
 
         } catch (InterruptedException | IOException e) {
