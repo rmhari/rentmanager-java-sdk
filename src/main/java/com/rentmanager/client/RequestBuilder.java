@@ -71,7 +71,7 @@ public class RequestBuilder<T> {
             pageNumber++;
         }
 
-        return Optional.ofNullable(entries);
+        return Optional.ofNullable(entries.isEmpty() ? null : entries);
     }
 
 
