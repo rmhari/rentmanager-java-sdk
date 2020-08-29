@@ -6,15 +6,19 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class RecurringChargeTest {
 
     @Test
     void testRentManager() throws RentManagerException {
         RentManager rentManager = new RentManager.RentManagerBuilder().build();
-        List<RecurringCharge> recurringCharges = rentManager.newRequestBuilder(RecurringCharge.class).getEntities(null,
+        Optional<List<RecurringCharge>> recurringCharges = rentManager.newRequestBuilder(RecurringCharge.class).getEntities(null,
                 List.of("ChargeType"), null, null, null, null);
-        System.out.println(recurringCharges);
+        recurringCharges.ifPresent(entities -> {
+            System.out.println(entities);
+        });
+
     }
 
 }

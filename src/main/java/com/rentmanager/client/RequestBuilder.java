@@ -55,9 +55,9 @@ public class RequestBuilder<T> {
                 : Optional.of(resultString.substring(0, resultString.length() - 1));
     }
 
-    public List<T> getEntities(List<String> fields, List<String> embeds, List<String> ordering, String filterExpression,
+    public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering, String filterExpression,
                                Integer pageSize, Integer pageNumber) throws RentManagerException {
-
+        List<T> entities = null;
         final HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(10))
@@ -102,10 +102,10 @@ public class RequestBuilder<T> {
 
             int responseCode = response.statusCode();
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_OK || responseCode ==  HttpURLConnection.HTTP_PARTIAL) {
                 CollectionType javaType = objectMapper.getTypeFactory()
                         .constructCollectionType(List.class, this.clazz);
-                return objectMapper.readValue(response.body(), javaType);
+                entities = objectMapper.readValue(response.body(), javaType);
             }else if (responseCode != HttpURLConnection.HTTP_NO_CONTENT){
                 throw new RentManagerException("con't get entities ", null);
             }
@@ -114,7 +114,7 @@ public class RequestBuilder<T> {
             throw new RentManagerException("unable get RentManager", e);
         }
 
-        return null;
+        return Optional.ofNullable(entities);
 
     }
 }
