@@ -1,6 +1,7 @@
 package com.rentmanager.client;
 
 import com.rentmanager.client.model.Tenant;
+import com.rentmanager.exception.RentManagerException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ class TenantTest {
 
 
     @Test
-    void testRentManager() throws IOException, InterruptedException {
+    void testRentManager() throws RentManagerException {
 //        RentManager rentManager = new RentManager.RentManagerBuilder().createRentManager();
         RentManager rentManager = RentManager.newRentManagerBuilder().build();
         List<Tenant> result = rentManager.newRequestBuilder(Tenant.class).getEntities(null,

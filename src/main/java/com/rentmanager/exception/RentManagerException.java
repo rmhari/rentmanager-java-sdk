@@ -13,6 +13,10 @@ public class RentManagerException extends Exception {
     private String innerException;
     private Map<String, Object> additionalData;
 
+    public RentManagerException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public String getDeveloperMessage() {
         return developerMessage;
     }

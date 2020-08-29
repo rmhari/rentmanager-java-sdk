@@ -1,6 +1,7 @@
 package com.rentmanager.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rentmanager.exception.RentManagerException;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -20,6 +21,7 @@ public class RentManager {
         this.token = getToken(userName, password);
         this.objectMapper = new ObjectMapper();
     }
+
     public static RentManagerBuilder newRentManagerBuilder() {
         return new RentManagerBuilder();
     }
@@ -57,7 +59,7 @@ public class RentManager {
 
     }
 
-    public <T> RequestBuilder<T> newRequestBuilder(Class<T> clazz) throws IOException, InterruptedException {
+    public <T> RequestBuilder<T> newRequestBuilder(Class<T> clazz) throws RentManagerException {
         return new RequestBuilder(clazz, url, token);
     }
 
@@ -81,10 +83,13 @@ public class RentManager {
             return this;
         }
 
-        public RentManager build() throws IOException, InterruptedException {
-            return new RentManager(url,userName,password);
+        public RentManager build() throws RentManagerException {
+            try {
+                return new RentManager(url, userName, password);
+            } catch (IOException | InterruptedException e) {
+                throw new RentManagerException("unable to create rentmanager", e);
+            }
         }
     }
-
 
 }
