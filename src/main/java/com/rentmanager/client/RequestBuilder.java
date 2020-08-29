@@ -15,6 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ public class RequestBuilder<T> {
     private final String url;
     private final String token;
     private final String resourceName;
+
+    private static final Integer MAXPAGESIZE = 1000;
 
     RequestBuilder(Class<T> clazz, String url, String token) {
         this.clazz = clazz;
@@ -54,6 +57,22 @@ public class RequestBuilder<T> {
                 ? Optional.empty()
                 : Optional.of(resultString.substring(0, resultString.length() - 1));
     }
+
+    public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering, String filterExpression) throws RentManagerException { 
+
+        Integer pageNumber = 1;
+        List<T> entries = new ArrayList<>();
+
+        Optional<List<T>> optionalEntries;
+
+        while ( (optionalEntries = getEntities(fields, embeds, ordering, filterExpression, MAXPAGESIZE, pageNumber)).isPresent()) {
+
+            entries.addAll(optionalEntries.get());
+        }
+
+        return Optional.ofNullable(entries);
+    }
+
 
     public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering, String filterExpression,
                                Integer pageSize, Integer pageNumber) throws RentManagerException {
