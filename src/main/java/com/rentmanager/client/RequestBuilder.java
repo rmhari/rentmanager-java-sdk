@@ -132,8 +132,12 @@ public class RequestBuilder<T> {
                 Map<String, Object> errorResponse = objectMapper.readValue(response.body(), Map.class);
 
                 if (responseCode >= 400 && responseCode < 500) {
-                    throw new RentManagerClientException(errorResponse.get("Message").toString(),
-                            new RentManagerClientException.ModelState(new String[] { "String One" }));
+
+                    RentManagerClientException.ModelState modelState = new RentManagerClientException.ModelState((List<String>) ((Map)errorResponse.get("ModelState")).get("filters"));
+                    RentManagerClientException rentManagerClientException = new RentManagerClientException(errorResponse.get("Message").toString(),
+                    modelState );
+
+                    throw rentManagerClientException;
 
                 } else {
                     throw new RentManagerException("can't get entities ", null);

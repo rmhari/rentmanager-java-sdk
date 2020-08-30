@@ -1,19 +1,25 @@
 package com.rentmanager.exception;
 
-public class RentManagerClientException extends RentManagerException{
+import java.util.List;
+
+public class RentManagerClientException extends RentManagerException {
 
     private final ModelState modelState;
     
-    public RentManagerClientException(String message, ModelState modelState) {
+    public RentManagerClientException(final String message, final ModelState modelState) {
         super(message, null);
         this.modelState = modelState;
     }
 
     public static class ModelState {
-        private String[] fields;
+        private final List<String> filters;
 
-        public ModelState(String[] fields) {
-        this.fields = fields;
+        public ModelState(final List<String> filters) {
+        this.filters = filters;
+        }
+
+        public List<String> getFilters() {
+            return filters;
         }
     }    
 }
