@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.rentmanager.exception.RentManagerClientException;
 import com.rentmanager.exception.RentManagerException;
+import com.rentmanager.exception.RentManagerServerException;
 
 import java.beans.JavaBean;
 import java.io.IOException;
@@ -84,7 +85,7 @@ public class RequestBuilder<T> {
     public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering,
             String filterExpression, Integer pageSize, Integer pageNumber) throws RentManagerException {
         if (pageSize > MAXPAGESIZE) {
-            throw new RentManagerException("max size exced", null);
+            throw new RentManagerException("max size exceeded", null);
         }
         List<T> entities = null;
         final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
@@ -140,7 +141,13 @@ public class RequestBuilder<T> {
                     throw rentManagerClientException;
 
                 } else {
-                    throw new RentManagerException("can't get entities ", null);
+
+                    RentManagerServerException rentManagerServerException = new RentManagerServerException(errorResponse.get("DeveloperMessage").toString(), errorResponse.get("UserMEssage").toString(), 
+                            (Long) errorResponse.get("ErrorCode"), errorResponse.get("MoreInfoUri").toString(),
+                            errorResponse.get("Exception").toString(), errorResponse.get("Details").toString(),
+                            errorResponse.get("InnerException").toString());
+
+                    throw rentManagerServerException;
                 }
             }
 
