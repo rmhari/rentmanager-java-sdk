@@ -1,81 +1,55 @@
 package com.rentmanager.exception;
 
-public class RentManagerServerException extends RentManagerException {
+import java.util.Map;
 
-    private String developerMessage;
-    private Long errorCode;
-    private String userMessage;
-    private String moreInfoUri;
-    private String exception;
-    private String details;
-    private String innerException;
+public final class RentManagerServerException extends RentManagerException {
 
-  public RentManagerServerException(final String developerMessage, final String userMessage, final Long errorCode,
-            final String moreInfoUri, final String exception, final String details, final String innerException) {
-      super(developerMessage, null);
+    private final String developerMessage;
+    private final Integer errorCode;
+    private final String moreInfoUri;
+    private final String exception;
+    private final String details;
+    private final String innerException;
+    private final Map<String, Object> additionalData;
+
+  public RentManagerServerException( final String userMessage, final String developerMessage, final Integer errorCode,
+            final String moreInfoUri, final String exception, final String details, final String innerException, final Map<String, Object> additionalData) {
+      super(userMessage, null);
       this.developerMessage = developerMessage;
-      this.userMessage = userMessage;
       this.errorCode = errorCode;
       this.moreInfoUri = moreInfoUri;
       this.exception = exception;
       this.details = details;
       this.innerException = innerException;
+      this.additionalData = additionalData;
     }
 
     public String getDeveloperMessage() {
       return developerMessage;
     }
 
-    public void setDeveloperMessage(String developerMessage) {
-      this.developerMessage = developerMessage;
-    }
-
-    public Long getErrorCode() {
+    public Integer getErrorCode() {
       return errorCode;
-    }
-
-    public void setErrorCode(Long errorCode) {
-      this.errorCode = errorCode;
-    }
-
-    public String getUserMessage() {
-      return userMessage;
-    }
-
-    public void setUserMessage(String userMessage) {
-      this.userMessage = userMessage;
     }
 
     public String getMoreInfoUri() {
       return moreInfoUri;
     }
 
-    public void setMoreInfoUri(String moreInfoUri) {
-      this.moreInfoUri = moreInfoUri;
-    }
-
     public String getException() {
       return exception;
-    }
-
-    public void setException(String exception) {
-      this.exception = exception;
     }
 
     public String getDetails() {
       return details;
     }
 
-    public void setDetails(String details) {
-      this.details = details;
-    }
-
     public String getInnerException() {
       return innerException;
     }
 
-    public void setInnerException(String innerException) {
-      this.innerException = innerException;
+    public Map<String, Object> getAdditionalData() {
+      return additionalData;
     }
 
 }

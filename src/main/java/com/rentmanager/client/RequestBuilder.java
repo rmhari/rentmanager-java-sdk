@@ -144,11 +144,11 @@ public class RequestBuilder<T> {
 
                     System.out.println(errorResponse);
 
-                    RentManagerServerException rentManagerServerException = new RentManagerServerException("developer message", null, null, null, null, null, null);
-                        // errorResponse.get("DeveloperMessage").toString(), errorResponse.get("UserMEssage").toString(), 
-                        //     (Long) errorResponse.get("ErrorCode"), errorResponse.get("MoreInfoUri").toString(),
-                        //     errorResponse.get("Exception").toString(), errorResponse.get("Details") != null ? errorResponse.get("Details").toString() : null,
-                        //     errorResponse.get("InnerException") != null ? errorResponse.get("InnerException").toString() : null);
+                    RentManagerServerException rentManagerServerException = new RentManagerServerException(  (String) errorResponse.get("UserMessage"), (String) errorResponse.get("DeveloperMessage"), 
+                           (Integer) errorResponse.get("ErrorCode"), (String) errorResponse.get("MoreInfoUri"),
+                            (String) errorResponse.get("Exception"), (String) errorResponse.get("Details"),
+                            (String) errorResponse.get("InnerException"), 
+                            (Map<String, Object>) errorResponse.get("AdditionalData"));
                     
                     throw rentManagerServerException;
                 }
