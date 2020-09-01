@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class RequestBuilder<T> {
@@ -58,19 +59,17 @@ public class RequestBuilder<T> {
                 : Optional.of(resultString.substring(0, resultString.length() - 1));
     }
 
-    public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering,
-            String filterExpression) throws RentManagerException {
+    public void consumeEntities(List<String> fields, List<String> embeds, List<String> ordering,
+            String filterExpression, Consumer<T> consumer) throws RentManagerException {
 
         Integer pageNumber = 1;
-
-        List<T> entries = new ArrayList<>();
 
         Optional<List<T>> optionalEntries;
 
         while ((optionalEntries = getEntities(fields, embeds, ordering, filterExpression, MAXPAGESIZE, pageNumber))
                 .isPresent()) {
 
-            entries.addAll(optionalEntries.get());
+            optionalEntries.get().stream().forEach(consumer);
             // If Records are lesses that MAXPAGESIZE this is last page so no need for next
             // API Call
             if (optionalEntries.get().size() != MAXPAGESIZE) {
@@ -78,8 +77,6 @@ public class RequestBuilder<T> {
             }
             pageNumber++;
         }
-
-        return Optional.ofNullable(entries.isEmpty() ? null : entries);
     }
 
     public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering,
