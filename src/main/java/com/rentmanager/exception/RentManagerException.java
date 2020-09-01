@@ -8,7 +8,4 @@ public class RentManagerException extends Exception {
         super(message, cause);
     }
 
-	public RentManagerException(String developerMessage, String userMessage, Long errorCode, String moreInfoUri,
-			String exception, String details, String innerException) {
-	}
 }

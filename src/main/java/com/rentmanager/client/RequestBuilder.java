@@ -84,9 +84,9 @@ public class RequestBuilder<T> {
 
     public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering,
             String filterExpression, Integer pageSize, Integer pageNumber) throws RentManagerException {
-        if (pageSize > MAXPAGESIZE) {
-            throw new RentManagerException("max size exceeded", null);
-        }
+        // if (pageSize > MAXPAGESIZE) {
+        //     throw new RentManagerException("max size exceeded", null);
+        // }
         List<T> entities = null;
         final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(10)).build();
@@ -142,16 +142,19 @@ public class RequestBuilder<T> {
 
                 } else {
 
-                    RentManagerServerException rentManagerServerException = new RentManagerServerException(errorResponse.get("DeveloperMessage").toString(), errorResponse.get("UserMEssage").toString(), 
-                            (Long) errorResponse.get("ErrorCode"), errorResponse.get("MoreInfoUri").toString(),
-                            errorResponse.get("Exception").toString(), errorResponse.get("Details").toString(),
-                            errorResponse.get("InnerException").toString());
+                    System.out.println(errorResponse);
 
+                    RentManagerServerException rentManagerServerException = new RentManagerServerException("developer message", null, null, null, null, null, null);
+                        // errorResponse.get("DeveloperMessage").toString(), errorResponse.get("UserMEssage").toString(), 
+                        //     (Long) errorResponse.get("ErrorCode"), errorResponse.get("MoreInfoUri").toString(),
+                        //     errorResponse.get("Exception").toString(), errorResponse.get("Details") != null ? errorResponse.get("Details").toString() : null,
+                        //     errorResponse.get("InnerException") != null ? errorResponse.get("InnerException").toString() : null);
+                    
                     throw rentManagerServerException;
                 }
             }
 
-        } catch (InterruptedException | IOException e) {
+        } catch (InterruptedException | IOException | NullPointerException e) {
             throw new RentManagerException("unable get RentManager", e);
         }
 
