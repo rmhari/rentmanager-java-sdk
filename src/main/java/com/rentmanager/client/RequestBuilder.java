@@ -1,6 +1,8 @@
 package com.rentmanager.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.rentmanager.exception.RentManagerClientException;
@@ -17,11 +19,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -60,7 +58,7 @@ public class RequestBuilder<T> {
     }
 
     public void consumeEntities(List<String> fields, List<String> embeds, List<String> ordering,
-            String filterExpression, Consumer<T> consumer) throws RentManagerException {
+                                String filterExpression, Consumer<T> consumer) throws RentManagerException {
 
         Integer pageNumber = 1;
 
@@ -80,7 +78,7 @@ public class RequestBuilder<T> {
     }
 
     public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering,
-            String filterExpression, Integer pageSize, Integer pageNumber) throws RentManagerException {
+                                         String filterExpression, Integer pageSize, Integer pageNumber) throws RentManagerException {
         // if (pageSize > MAXPAGESIZE) {
         //     throw new RentManagerException("max size exceeded", null);
         // }
@@ -131,9 +129,9 @@ public class RequestBuilder<T> {
 
                 if (responseCode >= 400 && responseCode < 500) {
 
-                    RentManagerClientException.ModelState modelState = new RentManagerClientException.ModelState((List<String>) ((Map)errorResponse.get("ModelState")).get("filters"));
+                    RentManagerClientException.ModelState modelState = new RentManagerClientException.ModelState((List<String>) ((Map) errorResponse.get("ModelState")).get("filters"));
                     RentManagerClientException rentManagerClientException = new RentManagerClientException(errorResponse.get("Message").toString(),
-                    modelState );
+                            modelState);
 
                     throw rentManagerClientException;
 
@@ -141,12 +139,12 @@ public class RequestBuilder<T> {
 
                     System.out.println(errorResponse);
 
-                    RentManagerServerException rentManagerServerException = new RentManagerServerException(  (String) errorResponse.get("UserMessage"), (String) errorResponse.get("DeveloperMessage"), 
-                           (Integer) errorResponse.get("ErrorCode"), (String) errorResponse.get("MoreInfoUri"),
+                    RentManagerServerException rentManagerServerException = new RentManagerServerException((String) errorResponse.get("UserMessage"), (String) errorResponse.get("DeveloperMessage"),
+                            (Integer) errorResponse.get("ErrorCode"), (String) errorResponse.get("MoreInfoUri"),
                             (String) errorResponse.get("Exception"), (String) errorResponse.get("Details"),
-                            (String) errorResponse.get("InnerException"), 
+                            (String) errorResponse.get("InnerException"),
                             (Map<String, Object>) errorResponse.get("AdditionalData"));
-                    
+
                     throw rentManagerServerException;
                 }
             }
@@ -157,5 +155,44 @@ public class RequestBuilder<T> {
 
         return Optional.ofNullable(entities);
 
+    }
+
+    public Optional<T> getEntity(Long id, List<String> embeds) throws RentManagerException {
+        Objects.requireNonNull(id);
+        Optional<T> entity = null;
+        final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
+                .connectTimeout(Duration.ofSeconds(10)).build();
+
+        final StringBuilder entitiesUrl = new StringBuilder(this.url + "/" + this.resourceName + "/" + id);
+
+        Map<String, String> requestParameters = new HashMap<>();
+
+        if (embeds != null) {
+            requestParameters.put("embeds", embeds.stream().collect(Collectors.joining(",")));
+        }
+        try {
+            getParamsString(requestParameters).ifPresent(paramString -> {
+                entitiesUrl.append("?").append(paramString);
+            });
+
+            HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(entitiesUrl.toString()))
+                    .setHeader("Content-Type", "application/json").setHeader("X-RM12Api-ApiToken", this.token).build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            int responseCode = response.statusCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, this.clazz);
+
+                entity = objectMapper.readValue(response.body(), javaType);
+
+            } else if (responseCode != HttpURLConnection.HTTP_NOT_FOUND) {
+            //    Map<String, Object> errorResponse = objectMapper.readValue(response.body(), Map.class);
+                throw new RentManagerException("RentManager with the id not found", null);
+            }
+        } catch (InterruptedException | IOException | NullPointerException e) {
+            throw new RentManagerException("unable get RentManager", e);
+        }
+        return entity;
     }
 }
