@@ -125,28 +125,7 @@ public class RequestBuilder<T> {
                 CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, this.clazz);
                 entities = objectMapper.readValue(response.body(), javaType);
             } else if (responseCode != HttpURLConnection.HTTP_NO_CONTENT) {
-                Map<String, Object> errorResponse = objectMapper.readValue(response.body(), Map.class);
-
-                if (responseCode >= 400 && responseCode < 500) {
-
-                    RentManagerClientException.ModelState modelState = new RentManagerClientException.ModelState((List<String>) ((Map) errorResponse.get("ModelState")).get("filters"));
-                    RentManagerClientException rentManagerClientException = new RentManagerClientException(errorResponse.get("Message").toString(),
-                            modelState);
-
-                    throw rentManagerClientException;
-
-                } else {
-
-                    System.out.println(errorResponse);
-
-                    RentManagerServerException rentManagerServerException = new RentManagerServerException((String) errorResponse.get("UserMessage"), (String) errorResponse.get("DeveloperMessage"),
-                            (Integer) errorResponse.get("ErrorCode"), (String) errorResponse.get("MoreInfoUri"),
-                            (String) errorResponse.get("Exception"), (String) errorResponse.get("Details"),
-                            (String) errorResponse.get("InnerException"),
-                            (Map<String, Object>) errorResponse.get("AdditionalData"));
-
-                    throw rentManagerServerException;
-                }
+                handleException(response);
             }
 
         } catch (InterruptedException | IOException | NullPointerException e) {
@@ -185,10 +164,38 @@ public class RequestBuilder<T> {
                 entity = Optional.of(objectMapper.readValue(response.body(), this.clazz));
             } else if (responseCode != HttpURLConnection.HTTP_NOT_FOUND) {
                 entity = Optional.empty();
+            } else {
+                handleException(response);
             }
         } catch (InterruptedException | IOException e) {
             throw new RentManagerException("unable get entity", e);
         }
         return entity;
+    }
+    private void handleException(HttpResponse<String> response) throws JsonProcessingException, RentManagerClientException, RentManagerServerException {
+
+        Map<String, Object> errorResponse = objectMapper.readValue(response.body(), Map.class);
+        int responseCode = response.statusCode();
+
+        if (responseCode >= 400 && responseCode < 500) {
+
+            RentManagerClientException.ModelState modelState = new RentManagerClientException.ModelState((List<String>) ((Map) errorResponse.get("ModelState")).get("filters"));
+            RentManagerClientException rentManagerClientException = new RentManagerClientException(errorResponse.get("Message").toString(),
+                    modelState);
+
+            throw rentManagerClientException;
+
+        } else {
+
+            System.out.println(errorResponse);
+
+            RentManagerServerException rentManagerServerException = new RentManagerServerException((String) errorResponse.get("UserMessage"), (String) errorResponse.get("DeveloperMessage"),
+                    (Integer) errorResponse.get("ErrorCode"), (String) errorResponse.get("MoreInfoUri"),
+                    (String) errorResponse.get("Exception"), (String) errorResponse.get("Details"),
+                    (String) errorResponse.get("InnerException"),
+                    (Map<String, Object>) errorResponse.get("AdditionalData"));
+
+            throw rentManagerServerException;
+        }
     }
 }
