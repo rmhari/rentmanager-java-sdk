@@ -16,5 +16,7 @@ public class RecurringChargeTest {
         rentManager.newRequestBuilder(RecurringCharge.class).consumeEntities(null,
                 List.of("ChargeType"), null, null, recurringCharge -> {System.out.println("Consuming RecurringCharge" + recurringCharge.recurringChargeID); 
             });
+
+        rentManager.newRequestBuilder(RecurringCharge.class).getEntity(3L, List.of("ChargeType"));
     }
 }

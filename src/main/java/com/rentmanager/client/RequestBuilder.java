@@ -150,7 +150,7 @@ public class RequestBuilder<T> {
             }
 
         } catch (InterruptedException | IOException | NullPointerException e) {
-            throw new RentManagerException("unable get RentManager", e);
+            throw new RentManagerException("unable get entities", e);
         }
 
         return Optional.ofNullable(entities);
@@ -182,16 +182,12 @@ public class RequestBuilder<T> {
 
             int responseCode = response.statusCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, this.clazz);
-
-                entity = objectMapper.readValue(response.body(), javaType);
-
+                entity = Optional.of(objectMapper.readValue(response.body(), this.clazz));
             } else if (responseCode != HttpURLConnection.HTTP_NOT_FOUND) {
-            //    Map<String, Object> errorResponse = objectMapper.readValue(response.body(), Map.class);
-                throw new RentManagerException("RentManager with the id not found", null);
+                entity = Optional.empty();
             }
-        } catch (InterruptedException | IOException | NullPointerException e) {
-            throw new RentManagerException("unable get RentManager", e);
+        } catch (InterruptedException | IOException e) {
+            throw new RentManagerException("unable get entity", e);
         }
         return entity;
     }
