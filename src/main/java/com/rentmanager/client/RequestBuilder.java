@@ -68,6 +68,7 @@ public class RequestBuilder<T> {
         int pageNumber = 1;
         AtomicInteger atomicInteger = new AtomicInteger(MAXPAGESIZE);
         while (atomicInteger.get() == MAXPAGESIZE) {
+            atomicInteger.set(0);
             consumeEntities(fields, embeds, ordering, filterExpression, MAXPAGESIZE, pageNumber, entity -> {
                 consumer.accept(entity);
                 atomicInteger.incrementAndGet();
