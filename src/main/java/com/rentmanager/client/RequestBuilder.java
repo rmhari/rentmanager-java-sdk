@@ -1,6 +1,8 @@
 package com.rentmanager.client;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,38 +84,15 @@ public class RequestBuilder<T> {
 
     public Optional<List<T>> getEntities(List<String> fields, List<String> embeds, List<String> ordering,
                                          String filterExpression, Integer pageSize, Integer pageNumber) throws RentManagerException {
-        // if (pageSize > MAXPAGESIZE) {
-        //     throw new RentManagerException("max size exceeded", null);
-        // }
-        List<T> entities = null;
 
-        final StringBuilder entitiesUrl = new StringBuilder(this.url + "/" + this.resourceName);
-
-        Map<String, String> requestParameters = getRequestParameter(fields, embeds, ordering, filterExpression, pageSize, pageNumber);
-
-        try {
-            getParamsString(requestParameters).ifPresent(paramString -> {
-                entitiesUrl.append("?").append(paramString);
-            });
-
-            HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(entitiesUrl.toString()))
-                    .setHeader("Content-Type", "application/json").setHeader("X-RM12Api-ApiToken", this.token).build();
-
-            HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            int responseCode = response.statusCode();
-
-            if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_PARTIAL) {
-                CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, this.clazz);
-                entities = objectMapper.readValue(response.body(), javaType);
-            } else if (responseCode != HttpURLConnection.HTTP_NO_CONTENT) {
-                handleException(response);
-            }
-
-        } catch (InterruptedException | IOException | NullPointerException e) {
-            throw new RentManagerException("unable get entities", e);
-        }
-
+        List<T> entities = new ArrayList<>();
+        consumeEntities(fields,
+                embeds,
+                ordering,
+                filterExpression,
+                pageSize,
+                pageNumber,
+                entities::add);
         return Optional.ofNullable(entities);
 
     }
@@ -140,6 +119,47 @@ public class RequestBuilder<T> {
 
         }
         return requestParameters;
+    }
+
+    private void consumeEntities(List<String> fields, List<String> embeds, List<String> ordering,
+                                String filterExpression, Integer pageSize, Integer pageNumber, Consumer<T> consumer) throws RentManagerException {
+
+
+        final StringBuilder entitiesUrl = new StringBuilder(this.url + "/" + this.resourceName);
+
+        Map<String, String> requestParameters = getRequestParameter(fields, embeds, ordering, filterExpression, pageSize, pageNumber);
+
+        try {
+            getParamsString(requestParameters).ifPresent(paramString -> {
+                entitiesUrl.append("?").append(paramString);
+            });
+
+            HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(entitiesUrl.toString()))
+                    .setHeader("Content-Type", "application/json").setHeader("X-RM12Api-ApiToken", this.token).build();
+
+            HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            int responseCode = response.statusCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_PARTIAL) {
+
+                try(JsonParser jsonParser  = objectMapper.getFactory().createParser(response.body())){
+                    if(jsonParser.nextToken() != JsonToken.START_ARRAY){
+                        throw new RentManagerException(" illicalstate of array",  null);
+                    }
+                    while (jsonParser.nextToken() != JsonToken.END_ARRAY){
+                        T entity = objectMapper.readValue(jsonParser, this.clazz);
+                        consumer.accept(entity);
+                    }
+                }
+
+            } else {
+                handleException(response);
+            }
+
+        } catch (InterruptedException | IOException | NullPointerException e) {
+            throw new RentManagerException("unable get entities", e);
+        }
     }
 
     public Optional<T> getEntity(Long id, List<String> embeds) throws RentManagerException {
