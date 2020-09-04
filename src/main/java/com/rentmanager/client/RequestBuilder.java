@@ -22,6 +22,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,7 @@ public class RequestBuilder<T> {
     private final String url;
     private final String token;
     private final String resourceName;
-    private final  HttpClient httpClient;
+    private final HttpClient httpClient;
 
     private static final Integer MAXPAGESIZE = 1000;
 
@@ -64,20 +65,13 @@ public class RequestBuilder<T> {
 
     public void consumeEntities(List<String> fields, List<String> embeds, List<String> ordering,
                                 String filterExpression, Consumer<T> consumer) throws RentManagerException {
-
-        Integer pageNumber = 1;
-
-        Optional<List<T>> optionalEntries;
-
-        while ((optionalEntries = getEntities(fields, embeds, ordering, filterExpression, MAXPAGESIZE, pageNumber))
-                .isPresent()) {
-
-            optionalEntries.get().stream().forEach(consumer);
-            // If Records are lesses that MAXPAGESIZE this is last page so no need for next
-            // API Call
-            if (optionalEntries.get().size() != MAXPAGESIZE) {
-                break;
-            }
+        int pageNumber = 1;
+        AtomicInteger atomicInteger = new AtomicInteger(MAXPAGESIZE);
+        while (atomicInteger.get() == MAXPAGESIZE) {
+            consumeEntities(fields, embeds, ordering, filterExpression, MAXPAGESIZE, pageNumber, entity -> {
+                consumer.accept(entity);
+                atomicInteger.incrementAndGet();
+            });
             pageNumber++;
         }
     }
@@ -122,7 +116,7 @@ public class RequestBuilder<T> {
     }
 
     private void consumeEntities(List<String> fields, List<String> embeds, List<String> ordering,
-                                String filterExpression, Integer pageSize, Integer pageNumber, Consumer<T> consumer) throws RentManagerException {
+                                 String filterExpression, Integer pageSize, Integer pageNumber, Consumer<T> consumer) throws RentManagerException {
 
 
         final StringBuilder entitiesUrl = new StringBuilder(this.url + "/" + this.resourceName);
@@ -143,11 +137,11 @@ public class RequestBuilder<T> {
 
             if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_PARTIAL) {
 
-                try(JsonParser jsonParser  = objectMapper.getFactory().createParser(response.body())){
-                    if(jsonParser.nextToken() != JsonToken.START_ARRAY){
-                        throw new RentManagerException(" illicalstate of array",  null);
+                try (JsonParser jsonParser = objectMapper.getFactory().createParser(response.body())) {
+                    if (jsonParser.nextToken() != JsonToken.START_ARRAY) {
+                        throw new RentManagerException(" illicalstate of array", null);
                     }
-                    while (jsonParser.nextToken() != JsonToken.END_ARRAY){
+                    while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
                         T entity = objectMapper.readValue(jsonParser, this.clazz);
                         consumer.accept(entity);
                     }
@@ -196,6 +190,7 @@ public class RequestBuilder<T> {
         }
         return entity;
     }
+
     private void handleException(HttpResponse<String> response) throws JsonProcessingException, RentManagerClientException, RentManagerServerException {
 
         Map<String, Object> errorResponse = objectMapper.readValue(response.body(), Map.class);
