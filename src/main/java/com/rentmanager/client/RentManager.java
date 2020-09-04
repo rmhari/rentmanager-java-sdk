@@ -15,11 +15,18 @@ public class RentManager {
     private final String url;
     private final String token;
     private final ObjectMapper objectMapper;
+    private final HttpClient httpClient;
 
-    private RentManager(String url, String userName, String password) throws IOException, InterruptedException {
+
+    private RentManager(String url, String userName, String password, ObjectMapper objectMapper) throws IOException, InterruptedException {
         this.url = url;
+        this.httpClient = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_1_1)
+                .connectTimeout(Duration.ofSeconds(10))
+                .build();
+
         this.token = getToken(userName, password);
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = objectMapper == null ? new ObjectMapper(): objectMapper;
     }
 
     public static RentManagerBuilder newRentManagerBuilder() {
@@ -31,10 +38,7 @@ public class RentManager {
         String token = null;
 
         //Connection created
-        final HttpClient httpClient = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_1_1)
-                .connectTimeout(Duration.ofSeconds(10))
-                .build();
+
         final StringBuilder loginUrl = new StringBuilder(this.url + "/authentication/AuthorizeUser/");
 
         //set header
@@ -45,7 +49,7 @@ public class RentManager {
                 .build();
 
 
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         //send request
         int responsecode = response.statusCode();
@@ -60,14 +64,14 @@ public class RentManager {
     }
 
     public <T> RequestBuilder<T> newRequestBuilder(Class<T> clazz) throws RentManagerException {
-        return new RequestBuilder(clazz, url, token);
+        return new RequestBuilder(clazz, url, token, objectMapper, httpClient);
     }
 
     public static class RentManagerBuilder {
         private String url = System.getenv("RENTMANAGER_URL");
         private String userName = System.getenv("RENTMANAGER_USERNAME");
         private String password = System.getenv("RENTMANAGER_PASSWORD");
-
+        private ObjectMapper objectMapper;
         RentManagerBuilder url(String url) {
             this.url = url;
             return this;
@@ -83,9 +87,14 @@ public class RentManager {
             return this;
         }
 
+
+        public RentManagerBuilder objectMapper(ObjectMapper objectMapper) {
+            this.objectMapper = objectMapper;
+            return this;
+        }
         public RentManager build() throws RentManagerException {
             try {
-                return new RentManager(url, userName, password);
+                return new RentManager(url, userName, password,objectMapper);
             } catch (IOException | InterruptedException e) {
                 throw new RentManagerException("unable to create rentmanager", e);
             }
