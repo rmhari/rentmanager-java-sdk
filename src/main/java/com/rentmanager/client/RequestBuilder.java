@@ -3,10 +3,7 @@ package com.rentmanager.client;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
 import com.rentmanager.exception.RentManagerClientException;
 import com.rentmanager.exception.RentManagerException;
 import com.rentmanager.exception.RentManagerServerException;
@@ -20,7 +17,7 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Duration;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -28,14 +25,13 @@ import java.util.stream.Collectors;
 
 public class RequestBuilder<T> {
 
+    private static final Integer MAXPAGESIZE = 1000;
     private final Class<T> clazz;
     private final ObjectMapper objectMapper;
     private final String url;
     private final String token;
     private final String resourceName;
     private final HttpClient httpClient;
-
-    private static final Integer MAXPAGESIZE = 1000;
 
     RequestBuilder(Class<T> clazz, String url, String token, ObjectMapper objectMapper, HttpClient httpClient) {
         this.clazz = clazz;
@@ -51,9 +47,9 @@ public class RequestBuilder<T> {
         StringBuilder result = new StringBuilder();
 
         for (Map.Entry<String, String> entry : params.entrySet()) {
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            result.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8));
             result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+            result.append(URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
             result.append("&");
         }
 
@@ -206,8 +202,6 @@ public class RequestBuilder<T> {
             throw rentManagerClientException;
 
         } else {
-
-            System.out.println(errorResponse);
 
             RentManagerServerException rentManagerServerException = new RentManagerServerException((String) errorResponse.get("UserMessage"), (String) errorResponse.get("DeveloperMessage"),
                     (Integer) errorResponse.get("ErrorCode"), (String) errorResponse.get("MoreInfoUri"),

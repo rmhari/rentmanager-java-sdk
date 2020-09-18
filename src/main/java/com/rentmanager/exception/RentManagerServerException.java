@@ -12,44 +12,44 @@ public final class RentManagerServerException extends RentManagerException {
     private final String innerException;
     private final Map<String, Object> additionalData;
 
-  public RentManagerServerException( final String userMessage, final String developerMessage, final Integer errorCode,
-            final String moreInfoUri, final String exception, final String details, final String innerException, final Map<String, Object> additionalData) {
-      super(userMessage, null);
-      this.developerMessage = developerMessage;
-      this.errorCode = errorCode;
-      this.moreInfoUri = moreInfoUri;
-      this.exception = exception;
-      this.details = details;
-      this.innerException = innerException;
-      this.additionalData = additionalData;
+    public RentManagerServerException(final String userMessage, final String developerMessage, final Integer errorCode,
+                                      final String moreInfoUri, final String exception, final String details, final String innerException, final Map<String, Object> additionalData) {
+        super(userMessage, null);
+        this.developerMessage = developerMessage;
+        this.errorCode = errorCode;
+        this.moreInfoUri = moreInfoUri;
+        this.exception = exception;
+        this.details = details;
+        this.innerException = innerException;
+        this.additionalData = additionalData;
     }
 
     public String getDeveloperMessage() {
-      return developerMessage;
+        return developerMessage;
     }
 
     public Integer getErrorCode() {
-      return errorCode;
+        return errorCode;
     }
 
     public String getMoreInfoUri() {
-      return moreInfoUri;
+        return moreInfoUri;
     }
 
     public String getException() {
-      return exception;
+        return exception;
     }
 
     public String getDetails() {
-      return details;
+        return details;
     }
 
     public String getInnerException() {
-      return innerException;
+        return innerException;
     }
 
     public Map<String, Object> getAdditionalData() {
-      return additionalData;
+        return additionalData;
     }
 
 }

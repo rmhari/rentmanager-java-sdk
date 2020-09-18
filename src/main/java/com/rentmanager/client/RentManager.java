@@ -12,6 +12,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 
 public class RentManager {
+
     private final String url;
     private final String token;
     private final ObjectMapper objectMapper;
@@ -26,7 +27,7 @@ public class RentManager {
                 .build();
 
         this.token = getToken(userName, password);
-        this.objectMapper = objectMapper == null ? new ObjectMapper(): objectMapper;
+        this.objectMapper = objectMapper == null ? new ObjectMapper() : objectMapper;
     }
 
     public static RentManagerBuilder newRentManagerBuilder() {
@@ -52,10 +53,10 @@ public class RentManager {
         HttpResponse<String> response = this.httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         //send request
-        int responsecode = response.statusCode();
+        int responseCode = response.statusCode();
 
         //if successful
-        if (responsecode == HttpURLConnection.HTTP_OK) {
+        if (responseCode == HttpURLConnection.HTTP_OK) {
             token = response.body();
             token = token.substring(1, token.length() - 1);
         }
@@ -72,6 +73,7 @@ public class RentManager {
         private String userName = System.getenv("RENTMANAGER_USERNAME");
         private String password = System.getenv("RENTMANAGER_PASSWORD");
         private ObjectMapper objectMapper;
+
         RentManagerBuilder url(String url) {
             this.url = url;
             return this;
@@ -92,9 +94,10 @@ public class RentManager {
             this.objectMapper = objectMapper;
             return this;
         }
+
         public RentManager build() throws RentManagerException {
             try {
-                return new RentManager(url, userName, password,objectMapper);
+                return new RentManager(url, userName, password, objectMapper);
             } catch (IOException | InterruptedException e) {
                 throw new RentManagerException("unable to create rentmanager", e);
             }

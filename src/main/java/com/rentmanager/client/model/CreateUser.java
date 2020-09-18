@@ -41,7 +41,7 @@ public class CreateUser {
     public Integer createUserID;
     @JsonProperty("UpdateDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
-    public  Date updateDate;
+    public Date updateDate;
     @JsonProperty("UpdateUserID")
     public Integer updateUserID;
     @JsonProperty("DefaultLocationID")

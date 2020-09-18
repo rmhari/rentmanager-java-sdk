@@ -42,4 +42,4 @@ public class Allocation {
     public Integer debitID;
     @JsonProperty("Charge")
     public Charge charge;
-    }
+}
