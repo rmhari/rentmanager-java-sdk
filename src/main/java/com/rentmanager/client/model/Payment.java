@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.beans.JavaBean;
 import java.util.List;
+
 @JavaBean(defaultProperty = "Payments")
 public class Payment {
 

@@ -1,6 +1,6 @@
 package com.rentmanager.client.model;
 
- public class InspectionIssuesAction {
+public class InspectionIssuesAction {
 
 
 }
