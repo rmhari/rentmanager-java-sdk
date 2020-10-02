@@ -10,7 +10,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.HashMap;
 
 public class RentManager {
 
@@ -19,7 +18,12 @@ public class RentManager {
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
 
-    private RentManager(String url, String userName, String password) throws IOException, InterruptedException {
+
+    private RentManager(String url, String userName, String password, ObjectMapper objectMapper) throws IOException, InterruptedException {
+        assert url != null : "URL Required";
+        assert userName != null : "UserName Required";
+        assert password != null : "Password Required";
+
         this.url = url;
         this.httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
