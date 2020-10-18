@@ -4,13 +4,13 @@
 
     <groupId>com.rentmanager.client</groupId>
     <artifactId>rentmanager-java-sdk</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
 
     <scm>
         <url>scm:git:https://github.com/techatpark/rentmanager-java-sdk.git</url>
         <connection>scm:git:https://sathishk@github.com/techatpark/rentmanager-java-sdk.git</connection>
         <developerConnection>scm:git:https://sathishk@github.com/techatpark/rentmanager-java-sdk.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>rentmanager-java-sdk-1.1</tag>
   </scm>
 
     <properties>
