@@ -14,7 +14,7 @@ public class PaymentsTest {
 
     public static void main(String[] args) throws RentManagerException {
         RentManager rentManager = new RentManager.RentManagerBuilder().url("https://epc.api.rentmanager.com").userName("heman").password("Eppo1234").build();
-        Optional<List<Payment>> result = rentManager.newRequestBuilder(Payment.class).getEntities(null,
+        Optional<List<Payment>> result = rentManager.requestBuilder(Payment.class).getEntities(null,
                 List.of("Allocations", "Allocations.Charge", "Allocations.Charge.ChargeType", "EpayTransactionInformationDetail.EpayTransactionInformation", "EpayTransactionInformationDetail", "Tenant", "Tenant.Addresses"), Collections.singletonList("LastFirst"), null, 20000, null);
         System.out.println(result);
 
