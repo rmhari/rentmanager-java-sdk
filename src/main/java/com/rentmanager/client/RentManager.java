@@ -68,7 +68,7 @@ public class RentManager {
 
     }
 
-    public <T> RequestBuilder<T> newRequestBuilder(Class<T> clazz) throws RentManagerException {
+    public <T> RequestBuilder<T> requestBuilder(Class<T> clazz) throws RentManagerException {
         return new RequestBuilder(clazz, url, token, objectMapper, httpClient);
     }
 
